@@ -7,3 +7,5 @@ Struktura sieci: 1 warstwa ukryta z 20 neuronami lub 2 warstwy ukryte z 10-oma; 
 Interfejs: prosty interfejs graficzny umo¿liwiaj¹cy definiowanie struktury sieci, wyklikiwanie punktów i demonstruj¹cy klasyfikacjê wyznaczan¹ przez sieæ.
 
 .
+
+A maciek ssie pa³e! 
