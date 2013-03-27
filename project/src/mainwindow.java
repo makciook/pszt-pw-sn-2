@@ -3,22 +3,17 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Daniel
- * Date: 26.03.13
- * Time: 11:05
- * To change this template use File | Settings | File Templates.
- */
+
 public class mainwindow extends JFrame {
     private short punkty[][];
-    private int sizeX = 30;
-    private int sizeY = 30;
+    private int sizeX = 40;
+    private int sizeY = 40;
     private int scale = 10;
 
     public mainwindow() {
         super("mainwindow");
         this.setPreferredSize(new Dimension(sizeX*scale, sizeY*scale));
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
 

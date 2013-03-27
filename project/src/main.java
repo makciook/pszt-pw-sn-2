@@ -8,5 +8,7 @@
 public class main {
     public static void main(String args[]) {
         mainwindow okno = new mainwindow();
+
+        NeuronNetwork siec = new NeuronNetwork();
     }
 }
