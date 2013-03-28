@@ -4,6 +4,8 @@
  * Time: 19:28
  */
 
+import com.sun.corba.se.impl.logging.ORBUtilSystemException;
+
 import java.util.Vector;
 
 
@@ -26,11 +28,12 @@ public class Neuron {
             double w = con.getWeight();
             Neuron input = con.getPrevNeuron();
             double v = input.getValue();
-
             s += v*w;
         }
+        System.out.print("Neuron " + id + " dostal " + s);
 
         value = f(s);
+        System.out.println(" a wyplul " + value);
         delta = 0;
     }
 

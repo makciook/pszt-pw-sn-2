@@ -30,7 +30,7 @@ public class mainwindow extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX()/scale;
                 int y = e.getY()/scale;
-                int wynik[] = new int[2];
+                double wynik[] = new double[2];
                 if(punkty[x][y] != 0)
                     return;
                 if(e.getButton() == MouseEvent.BUTTON1) {

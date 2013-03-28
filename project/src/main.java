@@ -12,5 +12,9 @@ public class main {
 
         mainwindow okno = new mainwindow(siec);
 
+        double asd[] = new double[1];
+
+        asd[0] = 0.5;
+        siec.learn(0.35,0.9,asd);
     }
 }
