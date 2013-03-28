@@ -9,13 +9,16 @@ public class mainwindow extends JFrame {
     private int sizeX = 40;
     private int sizeY = 40;
     private int scale = 10;
+    private final NeuronNetwork siec;
 
-    public mainwindow() {
+    public mainwindow(final NeuronNetwork siec) {
         super("mainwindow");
         this.setPreferredSize(new Dimension(sizeX*scale, sizeY*scale));
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
+
+        this.siec = siec;
 
         punkty = new short[sizeX][sizeY];
         for(int i = 0; i < sizeX; ++i)
@@ -36,6 +39,10 @@ public class mainwindow extends JFrame {
                     punkty[x][y] = 2;
 
                 repaint();
+                int wynik[] = new int[2];
+                wynik[0] = punkty[x][y];
+                wynik[1] = 1-punkty[x][y];
+                siec.learn(x,y,wynik);
             }
         });
 

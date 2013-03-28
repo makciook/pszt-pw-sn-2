@@ -7,8 +7,10 @@
  */
 public class main {
     public static void main(String args[]) {
-        mainwindow okno = new mainwindow();
 
-        NeuronNetwork siec = new NeuronNetwork(2);
+        NeuronNetwork siec = new NeuronNetwork(1);
+
+        mainwindow okno = new mainwindow(siec);
+
     }
 }

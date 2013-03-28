@@ -15,7 +15,7 @@ public class NeuronNetwork {
 
     private final int NEURONS_NUMS = 20;
     private int neurons = 0;
-    private int layers_number = 2;
+    private int layers_number;
     private final double LEARN_RATIO = 1;
 
     public NeuronNetwork(int lays_num) {
@@ -27,7 +27,7 @@ public class NeuronNetwork {
             inputLayer[i] = input;
         }
 
-        hiddenLayer =  new Neuron[lays_num][NEURONS_NUMS];                     // tworzenie lays_num warstw ukrytych
+        hiddenLayer =  new Neuron[lays_num][neurons];                     // tworzenie lays_num warstw ukrytych
         Neuron[] prev_lay = inputLayer;
         for(int i = 0; i < lays_num; ++i) {
             for(int j = 0; j < neurons; ++j) {
@@ -51,7 +51,7 @@ public class NeuronNetwork {
             for(Neuron neuron : hiddenLayer[i]) {
                 Synaps[] cons = neuron.getConnections();
                 for(Synaps con : cons) {
-                    con.setWeight(losuj.nextDouble());
+                    con.setWeight(losuj.nextDouble()*2-1);
                 }
             }
         }
@@ -60,7 +60,7 @@ public class NeuronNetwork {
         for(Neuron neuron : outputLayer) {
             Synaps[] cons = neuron.getConnections();
             for(Synaps con : cons) {
-                con.setWeight(losuj.nextDouble());
+                con.setWeight(losuj.nextDouble()*2-1);
             }
         }
 
@@ -70,6 +70,9 @@ public class NeuronNetwork {
     public void learn(int x, int y, int expected[]) {
         setInput(x,y);                                          // ustarwienie danych wejściowych
         calculate();                                            // wykonanie obliczeń przez sieć
+
+        System.out.println("x: " + x + "y " + y);
+        System.out.println("Wynik " + outputLayer[0].getValue() + " " + outputLayer[1].getValue());
 
         applyBackpropagation(expected);
     }
