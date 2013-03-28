@@ -153,10 +153,17 @@ public class NeuronNetwork {
                     int j = 0;
                     for (Neuron out_neu : prev_layer) {
                         double wjk = out_neu.getConnection(n.getId()).getWeight();
-                        double desiredOutput = (double) expected[j];
+                        double desiredOutput;
                         double ak = out_neu.getValue();
+                        if(i == layers_number-1) {
+                            desiredOutput = (double) expected[j];
+                            sumKoutputs = sumKoutputs + (-(desiredOutput - ak) * ak * (1 - ak) * wjk);
+                        }
+                        else
+                            sumKoutputs = sumKoutputs + (- ak * (1 - ak) * wjk);
+
                         j++;
-                        sumKoutputs = sumKoutputs + (-(desiredOutput - ak) * ak * (1 - ak) * wjk);
+
                     }
 
                     double partialDerivative = aj * (1 - aj) * ai * sumKoutputs;
