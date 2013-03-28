@@ -70,9 +70,9 @@ public class NeuronNetwork {
                 con.setWeight(losuj.nextDouble()*2-1);
             }
         }
-
-
     }
+
+
 
     public void learn(double x, double y, double expected[]) {
         setInput(x,y);                                          // ustarwienie danych wejściowych
@@ -177,6 +177,36 @@ public class NeuronNetwork {
                 con.setWeight(newWeight + momentum * con.getDelta());
                 con.setDelta(deltaWeight);
 
+            }
+        }
+
+        // update weights for the previous hidden layers
+        if(hiddenLayer.length<2)
+            return;
+
+        for(int j = hiddenLayer.length-1; j > 0; --j)    // for each layer in hidden-layer
+        {
+            Neuron[] layer = hiddenLayer[j];
+            for (Neuron n : layer) {                     // for each neuron in layer 'j'
+                Synaps[] connections = n.getConnections();
+                for (Synaps con : connections) {
+                    double aj = n.getValue();
+                    double ai = con.getPrevNeuron().getValue();
+                    double sumKoutputs = 0;
+                    for (Neuron out_neu : hiddenLayer[j-1]) {     // for each connection between 'j' and 'j-1'
+                        double wjk = out_neu.getConnection(n.getId()).getWeight();
+                        double desiredOutput = (double) expected[j-1];
+                        double ak = out_neu.getValue();
+                        sumKoutputs = sumKoutputs + (-(desiredOutput - ak) * ak * (1 - ak) * wjk);
+                    }
+
+                    double partialDerivative = aj * (1 - aj) * ai * sumKoutputs;
+                    double deltaWeight = -learningRate * partialDerivative;
+                    double newWeight = con.getWeight() + deltaWeight;
+                    con.setWeight(newWeight + momentum * con.getDelta());
+                    con.setDelta(deltaWeight);
+
+                }
             }
         }
         /*calcOutputLayerError(expected);

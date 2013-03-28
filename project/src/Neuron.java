@@ -57,6 +57,14 @@ public class Neuron {
         return connections;
     }
 
+    public Synaps getConnection(int i) {
+        for(Synaps s : connections) {
+            if(s.getPrevNeuron().getId()==i)
+                return s;
+        }
+        return null;
+    }
+
     private double f(double s) {
         return sigmoid(s);
     }
