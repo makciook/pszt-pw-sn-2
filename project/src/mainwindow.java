@@ -6,9 +6,9 @@ import java.awt.event.MouseEvent;
 
 public class mainwindow extends JFrame {
     private short punkty[][];
-    private int sizeX = 40;
-    private int sizeY = 40;
-    private int scale = 10;
+    private final int sizeX = 40;
+    private final int sizeY = 40;
+    private final int scale = 10;
     private final NeuronNetwork siec;
 
     public mainwindow(final NeuronNetwork siec) {
