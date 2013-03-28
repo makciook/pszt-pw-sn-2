@@ -72,6 +72,7 @@ public class NeuronNetwork {
         calculate();                                            // wykonanie obliczeń przez sieć
 
         System.out.println("x: " + x + " y " + y);
+        System.out.println("Oczekiwane: " + expected[0] + " " + expected[1]);
         System.out.println("Wynik " + outputLayer[0].getValue() + " " + outputLayer[1].getValue());
 
         applyBackpropagation(expected);

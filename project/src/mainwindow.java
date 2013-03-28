@@ -30,16 +30,21 @@ public class mainwindow extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX()/scale;
                 int y = e.getY()/scale;
+                int wynik[] = new int[2];
                 if(punkty[x][y] != 0)
                     return;
                 if(e.getButton() == MouseEvent.BUTTON1) {
                     punkty[x][y] = 1;
+                    wynik[0] = 0;
+                    wynik[1] = 1;
                 }
-                else
+                else {
                     punkty[x][y] = 2;
+                    wynik[0] = 1;
+                    wynik[1] = 0;
+                }
 
                 repaint();
-                int wynik[] = new int[2];
                 wynik[0] = punkty[x][y];
                 wynik[1] = 1-punkty[x][y];
                 siec.learn(x/40.0,y/40.0,wynik);
