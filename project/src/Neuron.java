@@ -9,12 +9,12 @@ import java.util.Vector;
 
 public class Neuron {
 
-    private Vector<Synaps> connections;             // synapsy wchodzące do neuronu
+    private Synaps[] connections;             // synapsy wchodzące do neuronu
     private double value = 0;
     private double delta = 0;
 
     public Neuron() {
-        connections = new Vector<Synaps>();
+
     }
 
     public void calculateValue() {
@@ -31,17 +31,21 @@ public class Neuron {
         delta = 0;
     }
 
-    public void addConnection(Synaps input) {
+    /*public void addConnection(Synaps input) {
         connections.add(input);
-    }
+    }*/
 
-    public void addConnections(Vector<Neuron> inputs) {
+    public void addConnections(Neuron[] inputs) {
+        connections = new Synaps[inputs.length];
+        int i = 0;
         for(Neuron in : inputs) {
-            connections.add(new Synaps(in, this));
+            connections[i] = new Synaps(in, this);
+            ++i;
+            System.out.println(i);
         }
     }
 
-    public Vector<Synaps> getConnections() {
+    public Synaps[] getConnections() {
         return connections;
     }
 
