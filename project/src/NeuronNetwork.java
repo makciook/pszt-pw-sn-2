@@ -21,6 +21,10 @@ public class NeuronNetwork {
     private final int OUTPUT_NEURONS = 1;
     private final int NEURONS_NUM = 4;
 
+    final double epsilon = 0.00000000001;
+    final double learningRate = 0.9f;
+    final double momentum = 0.7f;
+
     public NeuronNetwork(int lays_num) {
         layers_number = lays_num;
         neurons = NEURONS_NUM/lays_num;                        // ilość elementów w każdej z warstw ukrytych
@@ -123,7 +127,58 @@ public class NeuronNetwork {
     }
 
     private void applyBackpropagation(double expected[]) {
+        // error check, normalize value ]0;1[
+        for (int i = 0; i < expected.length; i++) {
+            double d = expected[i];
+            if (d < 0 || d > 1) {
+                if (d < 0)
+                    expected[i] = 0 + epsilon;
+                else
+                    expected[i] = 1 - epsilon;
+            }
+        }
 
+        int i = 0;
+        for (Neuron n : outputLayer) {
+            Synaps[] connections = n.getConnections();
+            for (Synaps con : connections) {
+                double ak = n.getValue();
+                double ai = con.getPrevNeuron().getValue();
+                double desiredOutput = expected[i];
+
+                double partialDerivative = -ak * (1 - ak) * ai * (desiredOutput - ak);
+                double deltaWeight = -learningRate * partialDerivative;
+                double newWeight = con.getWeight() + deltaWeight;
+                con.setWeight(newWeight + momentum * con.getDelta());
+                con.setDelta(deltaWeight);
+            }
+            i++;
+        }
+
+        // update weights for the LAST !!! hidden layer
+        for (Neuron n : hiddenLayer[hiddenLayer.length-1]) {
+            Synaps[] connections = n.getConnections();
+            for (Synaps con : connections) {
+                double aj = n.getValue();
+                double ai = con.getPrevNeuron().getValue();
+                double sumKoutputs = 0;
+                int j = 0;
+                for (Neuron out_neu : outputLayer) {
+                    double wjk = out_neu.getConnection(n.getId()).getWeight();
+                    double desiredOutput = (double) expected[j];
+                    double ak = out_neu.getValue();
+                    j++;
+                    sumKoutputs = sumKoutputs + (-(desiredOutput - ak) * ak * (1 - ak) * wjk);
+                }
+
+                double partialDerivative = aj * (1 - aj) * ai * sumKoutputs;
+                double deltaWeight = -learningRate * partialDerivative;
+                double newWeight = con.getWeight() + deltaWeight;
+                con.setWeight(newWeight + momentum * con.getDelta());
+                con.setDelta(deltaWeight);
+
+            }
+        }
         /*calcOutputLayerError(expected);
         changeOutputLayerWeights();
         calcHiddenLayersError();

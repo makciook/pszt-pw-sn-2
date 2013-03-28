@@ -25,11 +25,12 @@ public class Neuron {
     public void calculateValue() {
         double s = 0;
         for(Synaps con : connections) {
-            double w = con.getWeight();
+            double waga = con.getWeight();
             Neuron input = con.getPrevNeuron();
             double v = input.getValue();
-            s += v*w;
+            s += v*waga;
         }
+        s +=
 
         value = f(s);
         delta = 0;
