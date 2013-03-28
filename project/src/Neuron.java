@@ -30,10 +30,8 @@ public class Neuron {
             double v = input.getValue();
             s += v*w;
         }
-        System.out.print("Neuron " + id + " dostal " + s);
 
         value = f(s);
-        System.out.println(" a wyplul " + value);
         delta = 0;
     }
 

@@ -13,16 +13,17 @@ public class NeuronNetwork {
     private Neuron[][] hiddenLayer;
     private Neuron[] outputLayer;
 
-    private final int NEURONS_NUMS = 2;
-    private int neurons = 0;
-    private int layers_number;
-    private final double LEARN_RATIO = 1;
 
+    private int neurons;
+    private int layers_number;
+
+    private final double LEARN_RATIO = 0.9;
     private final int OUTPUT_NEURONS = 1;
+    private final int NEURONS_NUM = 4;
 
     public NeuronNetwork(int lays_num) {
         layers_number = lays_num;
-        neurons = NEURONS_NUMS/lays_num;                        // ilość elementów w każdej z warstw ukrytych
+        neurons = NEURONS_NUM/lays_num;                        // ilość elementów w każdej z warstw ukrytych
         inputLayer = new Neuron[2];                     // tworzenie warstwy wejściowej
         for(int i = 0; i < 2; ++i) {
             Neuron input = new Neuron();
@@ -47,13 +48,7 @@ public class NeuronNetwork {
             output.addConnections(prev_lay);
         }
 
-        hiddenLayer[0][0].getConnections()[0].setWeight(0.1);
-        hiddenLayer[0][0].getConnections()[1].setWeight(0.8);
-        hiddenLayer[0][1].getConnections()[0].setWeight(0.4);
-        hiddenLayer[0][1].getConnections()[1].setWeight(0.6);
-        outputLayer[0].getConnections()[0].setWeight(0.3);
-        outputLayer[0].getConnections()[1].setWeight(0.9);
-        /*// inicjalizacja wag losowymi wartościami
+        // inicjalizacja wag losowymi wartościami
         Random losuj = new Random();
         for(int i = 0; i < lays_num; ++i) {
             for(Neuron neuron : hiddenLayer[i]) {
@@ -70,7 +65,7 @@ public class NeuronNetwork {
             for(Synaps con : cons) {
                 con.setWeight(losuj.nextDouble()*2-1);
             }
-        }*/
+        }
 
 
     }
@@ -79,13 +74,13 @@ public class NeuronNetwork {
         setInput(x,y);                                          // ustarwienie danych wejściowych
         calculate();                                            // wykonanie obliczeń przez sieć
 
-        System.out.println("x: " + x + " y " + y);
+        //System.out.println("x: " + x + " y " + y);
         //System.out.println("Oczekiwane: " + expected[0] + " " + expected[1]);
-        System.out.println("Wynik " + outputLayer[0].getValue());
+        //System.out.println("Wynik " + outputLayer[0].getValue() + " "  + outputLayer[1].getValue());
 
         applyBackpropagation(expected);
 
-        for(Neuron neuron : hiddenLayer[0]) {
+        /*for(Neuron neuron : hiddenLayer[0]) {
             for(Synaps cos : neuron.getConnections()) {
                 System.out.print("Neuron " + neuron.getId() + " con weight " + cos.getWeight());
             }
@@ -97,13 +92,7 @@ public class NeuronNetwork {
                 System.out.print("Neuron " + neuron.getId() + " con weight " + cos.getWeight());
             }
             System.out.println();
-        }
-    }
-
-    public double calc(double x, double y) {
-        setInput(x,y);
-        calculate();
-        return outputLayer[0].getValue();
+        }*/
     }
 
     private void setInput(double x, double y) {
@@ -127,22 +116,28 @@ public class NeuronNetwork {
         }
     }
 
+    public double calc(double x, double y) {
+        setInput(x,y);
+        calculate();
+        return outputLayer[0].getValue();
+    }
+
     private void applyBackpropagation(double expected[]) {
 
-        calcOutputLayerError(expected);
+        /*calcOutputLayerError(expected);
         changeOutputLayerWeights();
         calcHiddenLayersError();
-        changeHiddenLayersWeights();
+        changeHiddenLayersWeights();*/
     }
 
     private void calcOutputLayerError(double expected[]) {
-        double out1 = outputLayer[0].getValue();
-        //double out2 = outputLayer[1].getValue();
-        double deltaa[] = new double[2];
-        deltaa[0] = out1*(1-out1)*(expected[0]-out1);
-        //deltaa[1] = out2*(1-out2)*(expected[1]-out2);
-        outputLayer[0].setDelta(deltaa[0]);
-        //outputLayer[1].setDelta(deltaa[1]);
+        double out;
+        double delta;
+        for(int i = 0; i < OUTPUT_NEURONS; ++i) {
+            out = outputLayer[i].getValue();
+            delta= out*(1-out)*(expected[i]-out);
+            outputLayer[0].setDelta(delta);
+        }
         //System.out.println("Bledy wyjsciowe: " + deltaa[0] + " " + deltaa[1]);
     }
 
@@ -162,7 +157,6 @@ public class NeuronNetwork {
     }
 
     private void calcHiddenLayersError() {
-        System.out.println("Od nowa");
         for(int i = layers_number-1; i >= 0; --i) {
             for(Neuron neuron : hiddenLayer[i]) {
                 for(Synaps con : neuron.getConnections()) {
