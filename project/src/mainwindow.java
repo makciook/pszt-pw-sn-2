@@ -45,8 +45,6 @@ public class mainwindow extends JFrame {
                 }
 
                 repaint();
-                wynik[0] = punkty[x][y];
-                wynik[1] = 1-punkty[x][y];
                 siec.learn(x/40.0,y/40.0,wynik);
             }
         });
