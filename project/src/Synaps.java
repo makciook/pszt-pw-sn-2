@@ -8,7 +8,7 @@ public class Synaps {
     private Neuron prev;                // od tego neurona idzie połączenie
     private Neuron next;                // do tego
     private double weight = 0;          // waga połączenia
-    private int delta = 0;              // propagacja wsteczna
+    private double delta = 0;              // propagacja wsteczna
 
     public Synaps(Neuron from, Neuron to) {
         prev = from;
@@ -23,11 +23,11 @@ public class Synaps {
         weight = new_weight;
     }
 
-    public int getDelta() {
+    public double getDelta() {
         return delta;
     }
 
-    public void setDelta(int new_delta) {
+    public void setDelta(double new_delta) {
         delta = new_delta;
     }
 

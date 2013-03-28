@@ -11,6 +11,7 @@ public class Neuron {
 
     private Vector<Synaps> connections;             // synapsy wchodzące do neuronu
     private double value = 0;
+    private double delta = 0;
 
     public Neuron() {
         connections = new Vector<Synaps>();
@@ -27,6 +28,7 @@ public class Neuron {
         }
 
         value = f(s);
+        delta = 0;
     }
 
     public void addConnection(Synaps input) {
@@ -57,5 +59,13 @@ public class Neuron {
 
     public double getValue() {
         return value;
+    }
+
+    public double getDelta() {
+        return delta;
+    }
+
+    public void setDelta(double d) {
+        delta = d;
     }
 }
