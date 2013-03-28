@@ -42,7 +42,7 @@ public class mainwindow extends JFrame {
                 int wynik[] = new int[2];
                 wynik[0] = punkty[x][y];
                 wynik[1] = 1-punkty[x][y];
-                siec.learn(x,y,wynik);
+                siec.learn(x/40.0,y/40.0,wynik);
             }
         });
 

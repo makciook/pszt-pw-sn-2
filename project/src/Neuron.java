@@ -12,9 +12,12 @@ public class Neuron {
     private Synaps[] connections;             // synapsy wchodzące do neuronu
     private double value = 0;
     private double delta = 0;
+    private static int counter = 0;
+    private int id;
 
     public Neuron() {
-
+        ++counter;
+        id = counter;
     }
 
     public void calculateValue() {
@@ -31,6 +34,10 @@ public class Neuron {
         delta = 0;
     }
 
+    public int getId() {
+        return id;
+    }
+
     /*public void addConnection(Synaps input) {
         connections.add(input);
     }*/
@@ -41,7 +48,6 @@ public class Neuron {
         for(Neuron in : inputs) {
             connections[i] = new Synaps(in, this);
             ++i;
-            System.out.println(i);
         }
     }
 
