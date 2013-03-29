@@ -1,5 +1,5 @@
 /**
- *
+ * Algorytm propagacji wstecznej - http://home.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html
  * TODO:
  */
 
@@ -96,7 +96,6 @@ public class NeuronNetwork {
         for(int i = 0; i < layers_number; ++i) {
             for(int j = 0; j < neurons; ++j) {
                 hiddenLayer[i][j].calculateValue();
-                //System.out.println("Neuron " + hiddenLayer[i][j].getId() + " " + hiddenLayer[i][j].getValue());
             }
         }
 
@@ -106,10 +105,14 @@ public class NeuronNetwork {
         }
     }
 
-    public double calc(double x, double y) {
+    public double[] calc(double x, double y) {
         setInput(x,y);
         calculate();
-        return outputLayer[0].getValue();
+        double result[] = new double[OUTPUT_NEURONS];
+        for(int i = 0; i < OUTPUT_NEURONS; ++i) {
+            result[i] = outputLayer[i].getValue();
+        }
+        return result;
     }
 
     private void applyBackpropagation(double expected[]) {

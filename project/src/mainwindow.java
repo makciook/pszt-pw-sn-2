@@ -1,14 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
 public class mainwindow extends JFrame {
     private short punkty[][];
-    private final int sizeX = 40;
-    private final int sizeY = 40;
-    private final int scale = 10;
+    private short krzywa[][];
+    private boolean rysuj_krzywa;
+    private final int sizeX = 80;
+    private final int sizeY = 80;
+    private final int scale = 5;
     private final NeuronNetwork siec;
 
     public mainwindow(final NeuronNetwork siec) {
@@ -27,7 +31,7 @@ public class mainwindow extends JFrame {
 
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 int x = e.getX()/scale;
                 int y = e.getY()/scale;
                 double wynik[] = new double[2];
@@ -49,6 +53,40 @@ public class mainwindow extends JFrame {
             }
         });
 
+        addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() != KeyEvent.VK_SPACE)
+                    return;
+                krzywa = new short[sizeX][sizeY];
+                double wyniki[] = new double[2];
+                double poprzedni = 0;
+                double aktualny = 0;
+                boolean bylo = false;
+                for(int i = 0; i < sizeX; ++i) {
+                    for(int j = 0; j < sizeY; ++j) {
+                        wyniki = siec.calc(i,j);
+                        aktualny = wyniki[0] - wyniki[1];
+                        if(!bylo) {
+                            if((aktualny<0)==(poprzedni<0))
+                                krzywa[i][j] = 0;
+                            else {
+                                krzywa[i][j] = 1;
+                                bylo = true;
+                            }
+                        }
+                        poprzedni = aktualny;
+                    }
+                    poprzedni = 0;
+                    aktualny = 0;
+                    bylo = true;
+                }
+                rysuj_krzywa = true;
+                repaint();
+            }
+        });
+
         this.setVisible(true);
 
     }
@@ -59,15 +97,23 @@ public class mainwindow extends JFrame {
 
         for(int i = 0; i < sizeX; ++i) {
             for(int j = 0; j < sizeY; ++j) {
-                if(punkty[i][j] == 0)
+                if(punkty[i][j] == 0 && !rysuj_krzywa)
                     continue;
                 if(punkty[i][j] == 1) {
                     g.setColor(Color.red);
-                    g.fillRect(i*scale,j*scale,scale,scale);
+                    //g.fillRect(i*scale,j*scale,scale,scale);
+                    g.fillArc(i*scale,j*scale,scale,scale,0,360);
                 }
                 else {
                     g.setColor(Color.blue);
-                    g.fillRect(i*scale,j*scale,scale,scale);
+                    //g.fillRect(i*scale,j*scale,scale,scale);
+                    g.fillArc(i*scale,j*scale,scale,scale,0,360);
+                }
+                if(rysuj_krzywa) {
+                    if(krzywa[i][j] == 1) {
+                        g.setColor(Color.black);
+                        g.fillRect(i*scale, j*scale, scale, scale);
+                    }
                 }
             }
         }
