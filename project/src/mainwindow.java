@@ -4,6 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Line2D;
 
 
 public class mainwindow extends JFrame {
@@ -49,7 +50,7 @@ public class mainwindow extends JFrame {
                 }
 
                 repaint();
-                siec.learn(x/40.0,y/40.0,wynik);
+                siec.learn(x/80.0,y/80.0,wynik);
             }
         });
 
@@ -64,10 +65,20 @@ public class mainwindow extends JFrame {
                 double poprzedni = 0;
                 double aktualny = 0;
                 boolean bylo = false;
-                for(int i = 0; i < sizeX; ++i) {
-                    for(int j = 0; j < sizeY; ++j) {
-                        wyniki = siec.calc(i,j);
-                        aktualny = wyniki[0] - wyniki[1];
+                for(int i = 1; i < sizeX; ++i) {
+                    for(int j = 1; j < sizeY; ++j) {
+                        wyniki = siec.calc(i/80.0,j/80.0);
+                       aktualny = wyniki[0] - wyniki[1];
+                       
+                    //    System.out.println(wyniki[0]  + " "+  wyniki[1] + " i" +i + " j" +j );
+                    
+                       if(Math.abs(aktualny) <= 0.01) {
+                        krzywa[i][j] = 1;
+                       }
+                       else
+                        krzywa[i][j] = 0;
+                        
+                        /*
                         if(!bylo && j > 0) {
                             if((aktualny<0)==(poprzedni<0))
                                 krzywa[i][j] = 0;
@@ -76,12 +87,18 @@ public class mainwindow extends JFrame {
                                 bylo = true;
                             }
                         }
+                        
                         poprzedni = aktualny;
                     }
                     poprzedni = 0;
                     aktualny = 0;
                     bylo = false;
+                    */
+                  }
                 }
+                
+                       
+                       
                 rysuj_krzywa = true;
                 repaint();
             }
@@ -111,17 +128,17 @@ public class mainwindow extends JFrame {
                 }
             }
         }
-        if(rysuj_krzywa) {
-            g.setColor(Color.black);
+        if(rysuj_krzywa) {  
+            g.setColor(Color.BLACK);
             for(int i = 0; i < sizeX; ++i) {
                 for(int j = 0; j < sizeY; ++j) {
-                    System.out.print(krzywa[i][j] + " ");
                     if(krzywa[i][j] == 1) {
                         g.fillRect(i*scale, j*scale, scale, scale);
+                        System.out.println("Rysowanie prostej przez:" +i + " j:" +j );
                     }
                 }
-                System.out.println();
             }
+            rysuj_krzywa = false;
         }
 
     }
