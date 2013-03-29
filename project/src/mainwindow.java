@@ -65,18 +65,19 @@ public class mainwindow extends JFrame {
                 double poprzedni = 0;
                 double aktualny = 0;
                 boolean bylo = false;
-                for(int i = 1; i < sizeX; ++i) {
-                    for(int j = 1; j < sizeY; ++j) {
+                for(int i = 0; i < sizeX; ++i) {
+                    for(int j = 0; j < sizeY; ++j) {
                         wyniki = siec.calc((double)i/sizeX,(double)j/sizeY);
                        aktualny = wyniki[0] - wyniki[1];
                        
                     //    System.out.println(wyniki[0]  + " "+  wyniki[1] + " i" +i + " j" +j );
                     
-                       if(Math.abs(aktualny) <= 0.01) {
-                        krzywa[i][j] = 1;
+                       if(wyniki[0] > wyniki[1]) {
+                         krzywa[i][j] = 1;
                        }
-                       else
-                        krzywa[i][j] = 0;
+                       else {
+                        krzywa[i][j] = 2;
+                       }
                         
                         /*
                         if(!bylo && j > 0) {
@@ -128,13 +129,16 @@ public class mainwindow extends JFrame {
                 }
             }
         }
-        if(rysuj_krzywa) {  
-            g.setColor(Color.BLACK);
+        if(rysuj_krzywa) {    
             for(int i = 0; i < sizeX; ++i) {
                 for(int j = 0; j < sizeY; ++j) {
                     if(krzywa[i][j] == 1) {
-                        g.fillRect(i*scale, j*scale, scale, scale);
-                        System.out.println("Rysowanie prostej przez:" +i + " j:" +j );
+                        g.setColor(Color.blue);
+                        g.fillRect(i*scale, j*scale, scale, scale); 
+                    }
+                    else {
+                        g.setColor(Color.red);
+                        g.fillRect(i*scale, j*scale, scale, scale); 
                     }
                 }
             }
