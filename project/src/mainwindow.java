@@ -68,7 +68,7 @@ public class mainwindow extends JFrame {
                     for(int j = 0; j < sizeY; ++j) {
                         wyniki = siec.calc(i,j);
                         aktualny = wyniki[0] - wyniki[1];
-                        if(!bylo) {
+                        if(!bylo && j > 0) {
                             if((aktualny<0)==(poprzedni<0))
                                 krzywa[i][j] = 0;
                             else {
@@ -80,7 +80,7 @@ public class mainwindow extends JFrame {
                     }
                     poprzedni = 0;
                     aktualny = 0;
-                    bylo = true;
+                    bylo = false;
                 }
                 rysuj_krzywa = true;
                 repaint();
@@ -97,7 +97,7 @@ public class mainwindow extends JFrame {
 
         for(int i = 0; i < sizeX; ++i) {
             for(int j = 0; j < sizeY; ++j) {
-                if(punkty[i][j] == 0 && !rysuj_krzywa)
+                if(punkty[i][j] == 0)
                     continue;
                 if(punkty[i][j] == 1) {
                     g.setColor(Color.red);
@@ -109,12 +109,18 @@ public class mainwindow extends JFrame {
                     //g.fillRect(i*scale,j*scale,scale,scale);
                     g.fillArc(i*scale,j*scale,scale,scale,0,360);
                 }
-                if(rysuj_krzywa) {
+            }
+        }
+        if(rysuj_krzywa) {
+            g.setColor(Color.black);
+            for(int i = 0; i < sizeX; ++i) {
+                for(int j = 0; j < sizeY; ++j) {
+                    System.out.print(krzywa[i][j] + " ");
                     if(krzywa[i][j] == 1) {
-                        g.setColor(Color.black);
                         g.fillRect(i*scale, j*scale, scale, scale);
                     }
                 }
+                System.out.println();
             }
         }
 
