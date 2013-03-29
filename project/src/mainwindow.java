@@ -62,11 +62,11 @@ public class mainwindow extends JFrame {
                 if(punkty[i][j] == 0)
                     continue;
                 if(punkty[i][j] == 1) {
-                    g.setColor(Color.cyan);
+                    g.setColor(Color.red);
                     g.fillRect(i*scale,j*scale,scale,scale);
                 }
                 else {
-                    g.setColor(Color.magenta);
+                    g.setColor(Color.blue);
                     g.fillRect(i*scale,j*scale,scale,scale);
                 }
             }
