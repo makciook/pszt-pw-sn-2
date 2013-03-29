@@ -50,7 +50,7 @@ public class mainwindow extends JFrame {
                 }
 
                 repaint();
-                siec.learn(double)x/sizeX,(double)y/sizeY,wynik);
+                siec.learn( (double)x/sizeX, (double)y/sizeY, wynik);
             }
         });
 
