@@ -30,7 +30,6 @@ public class Neuron {
             double v = input.getValue();
             s += v*waga;
         }
-        s +=
 
         value = f(s);
         delta = 0;

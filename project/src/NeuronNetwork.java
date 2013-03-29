@@ -113,80 +113,42 @@ public class NeuronNetwork {
     }
 
     private void applyBackpropagation(double expected[]) {
-        // error check, normalize value ]0;1[
-        for (int i = 0; i < expected.length; i++) {
-            double d = expected[i];
-            if (d < 0 || d > 1) {
-                if (d < 0)
-                    expected[i] = 0 + epsilon;
-                else
-                    expected[i] = 1 - epsilon;
-            }
+
+        for(int i = 0; i < OUTPUT_NEURONS; ++i) {
+            Neuron n = outputLayer[i];
+            n.setDelta(expected[i] - n.getValue());
         }
 
-        int i = 0;
-        for (Neuron n : outputLayer) {
-            Synaps[] connections = n.getConnections();
-            for (Synaps con : connections) {
-                double ak = n.getValue();
-                double ai = con.getPrevNeuron().getValue();
-                double desiredOutput = expected[i];
-
-                double partialDerivative = -ak * (1 - ak) * ai * (desiredOutput - ak);
-                double deltaWeight = -learningRate * partialDerivative;
-                double newWeight = con.getWeight() + deltaWeight;
-                con.setWeight(newWeight + momentum * con.getDelta());
-                con.setDelta(deltaWeight);
-            }
-            i++;
-        }
-
-        // update weights for the LAST !!! hidden layer
-        Neuron prev_layer[] = outputLayer;
-        for(i = layers_number-1; i >= 0; --i) {
-            for (Neuron n : hiddenLayer[i]) {
-                Synaps[] connections = n.getConnections();
-                for (Synaps con : connections) {
-                    double aj = n.getValue();
-                    double ai = con.getPrevNeuron().getValue();
-                    double sumKoutputs = 0;
-                    int j = 0;
-                    for (Neuron out_neu : prev_layer) {
-                        double wjk = out_neu.getConnection(n.getId()).getWeight();
-                        double desiredOutput;
-                        double ak = out_neu.getValue();
-                        if(i == layers_number-1) {
-                            desiredOutput = (double) expected[j];
-                            sumKoutputs = sumKoutputs + (-(desiredOutput - ak) * ak * (1 - ak) * wjk);
-                        }
-                        else {
-                            sumKoutputs = sumKoutputs + (ak * (1 - ak) * wjk);
-
-                            double sum = 0;
-                            for(Neuron neuron : prev_layer) {
-                                for(Synaps synapsa : neuron.getConnections()) {
-                                    if(synapsa.getPrevNeuron().getId() == n.getId()) {
-                                        sum += (synapsa.getWeight()*neuron.getDelta());
-                                        break;
-                                    }
-                                }
-                            }
-                            sumKoutputs *= sum;
-                        }
-
-                        j++;
-
-                    }
-
-                    double partialDerivative = aj * (1 - aj) * ai * sumKoutputs;
-                    double deltaWeight = -learningRate * partialDerivative;
-                    double newWeight = con.getWeight() + deltaWeight;
-                    con.setWeight(newWeight + momentum * con.getDelta());
-                    con.setDelta(deltaWeight);
-
+        Neuron cur_layer[] = outputLayer;
+        double delta = 0;
+        for(int i = layers_number; i > 0; --i) {
+            for(Neuron n : cur_layer) {
+                Synaps connections[] = n.getConnections();
+                for(Synaps con : connections) {
+                    delta = con.getWeight()*n.getDelta();
+                    Neuron prev = con.getPrevNeuron();
+                    prev.setDelta(prev.getDelta() + delta);
                 }
             }
-            prev_layer = hiddenLayer[i];
+            cur_layer = hiddenLayer[i-1];
+        }
+
+        cur_layer = hiddenLayer[0];
+        double new_weight = 0;
+        for(int i = 0; i < layers_number+1; ++i) {
+            for(Neuron n : cur_layer) {
+                Synaps connections[] = n.getConnections();
+                for(Synaps con : connections) {
+                    Neuron prev = con.getPrevNeuron();
+                    double v = n.getValue();
+                    new_weight = con.getWeight() + LEARN_RATIO*n.getDelta()*prev.getValue()*v*(1-v);
+                    con.setWeight(new_weight);
+                }
+            }
+            if(i >= layers_number-1)
+                cur_layer = outputLayer;
+            else
+                cur_layer = hiddenLayer[i+1];
         }
 
         /*calcOutputLayerError(expected);

@@ -14,7 +14,7 @@ public class main {
 
         /*double asd[] = new double[1];
 
-         for(int i = 0; i < 1500; ++i) {
+         for(int i = 0; i < 15000; ++i) {
             asd[0] = 0;
             siec.learn(1.0,1.0,asd);
             asd[0] = 1;
@@ -25,6 +25,6 @@ public class main {
             siec.learn(0.0,0.0,asd);
          }
 
-        System.out.println("Wynik: " + siec.calc(1.0, 1.0)); */
+        System.out.println("Wynik: " + siec.calc(1.0, 0.0));*/
     }
 }
