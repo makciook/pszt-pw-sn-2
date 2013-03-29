@@ -50,7 +50,7 @@ public class mainwindow extends JFrame {
                 }
 
                 repaint();
-                siec.learn(x/80.0,y/80.0,wynik);
+                siec.learn(x/sizeX,y/sizeY,wynik);
             }
         });
 
@@ -67,7 +67,7 @@ public class mainwindow extends JFrame {
                 boolean bylo = false;
                 for(int i = 1; i < sizeX; ++i) {
                     for(int j = 1; j < sizeY; ++j) {
-                        wyniki = siec.calc(i/80.0,j/80.0);
+                        wyniki = siec.calc(i/sizeX,j/sizeY);
                        aktualny = wyniki[0] - wyniki[1];
                        
                     //    System.out.println(wyniki[0]  + " "+  wyniki[1] + " i" +i + " j" +j );
