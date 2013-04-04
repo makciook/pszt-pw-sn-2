@@ -150,7 +150,7 @@ public class NeuronNetwork {
      */
     public void learn(double x, double y, double expected[]) {
         setInput(x,y);            // ustawienie danych wejściowych
-        calculate();              // wykonanie obliczeń przez sieć
+        calculateLayers();              // wykonanie obliczeń przez sieć
 
         System.out.println("x: " + x + " y " + y);
         System.out.println("Oczekiwane: " + expected[0] + " " + expected[1]);
@@ -164,8 +164,10 @@ public class NeuronNetwork {
         inputLayer[1].setValue(y);
     }
 
-    private void calculate() {
-
+    /**
+     * Przeprowadzenie obliczeń przez warstwy ukryte i wyjściową
+     */
+    private void calculateLayers() {
         // wykonanie obliczeń przez warstwy ukryte
         for(int i = 0; i < layers_number; ++i) {
             for(int j = 0; j < neurons; ++j) {
@@ -179,12 +181,18 @@ public class NeuronNetwork {
         }
     }
 
-    public double[] calc(double x, double y) {
+    /**
+     * Publiczna metoda obliczania wyników dla punktu x,y
+     * @param x Współrzędna x punktu na płaszczyźnie
+     * @param y Współrzędna y punktu na płaszczyźnie
+     * @return Tablica wyników
+     */
+    public double[] calcResults(double x, double y) {
         setInput(x,y);
-        calculate();
+        calculateLayers();
         double result[] = new double[OUTPUT_NEURONS];
         for(int i = 0; i < OUTPUT_NEURONS; ++i) {
-            result[i] = outputLayer[i].getValue();
+            result[i] = outputLayer[i].getValue();      // zbieranie wyników z warstwy wyjściowej
         }
         return result;
     }

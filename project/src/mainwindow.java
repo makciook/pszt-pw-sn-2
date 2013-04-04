@@ -67,7 +67,7 @@ public class mainwindow extends JFrame {
                 boolean bylo = false;
                 for(int i = 0; i < sizeX; ++i) {
                     for(int j = 0; j < sizeY; ++j) {
-                        wyniki = siec.calc((double)i/sizeX,(double)j/sizeY);
+                        wyniki = siec.calcResults((double)i/sizeX,(double)j/sizeY);
                        aktualny = wyniki[0] - wyniki[1];
                        
                     //    System.out.println(wyniki[0]  + " "+  wyniki[1] + " i" +i + " j" +j );
