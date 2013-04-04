@@ -8,7 +8,9 @@ import com.sun.corba.se.impl.logging.ORBUtilSystemException;
 
 import java.util.Vector;
 
-
+/**
+ * Reprezentacja neuronu poprzez należące do niego synapsy
+ */
 public class Neuron {
 
     private Synaps[] connections;             // synapsy wchodzące do neuronu
@@ -31,7 +33,7 @@ public class Neuron {
             s += v*waga;
         }
 
-        value = f(s);
+        value = func(s);
         delta = 0;
     }
 
@@ -64,7 +66,7 @@ public class Neuron {
         return null;
     }
 
-    private double f(double s) {
+    private double func(double s) {
         return sigmoid(s);
     }
 

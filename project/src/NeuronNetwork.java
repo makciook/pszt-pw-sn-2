@@ -5,7 +5,9 @@
 
 import java.util.Random;
 
-
+/**
+ * Reprezentacja sieci neuronowej jako zbiór neuronów, pogrupowanych w warstwy - input, hidden oraz output.
+ */
 public class NeuronNetwork {
 
     private Neuron[] inputLayer;

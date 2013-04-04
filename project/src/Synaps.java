@@ -4,6 +4,10 @@
  * Time: 19:49
  * TODO:
  */
+
+/**
+ * Reprezentacja synapsy poprzez parametry jak waga i delta oraz połączenie - wychodzące (next) i wchodzące (prev)
+ */
 public class Synaps {
     private Neuron prev;                // od tego neurona idzie połączenie
     private Neuron next;                // do tego
