@@ -8,11 +8,13 @@ import java.util.Random;
 /**
  * Reprezentacja sieci neuronowej jako zbiór neuronów, pogrupowanych w warstwy - input, hidden oraz output.
  */
-public class NeuronNetwork {
+public class NeuronNetwork extends Thread {
 
     private Neuron[] inputLayer;
     private Neuron[][] hiddenLayer;
     private Neuron[] outputLayer;
+
+    private double[] curTable;
 
     private int neurons;
     private int layers_number;
@@ -20,6 +22,18 @@ public class NeuronNetwork {
     private final double LEARN_RATIO = 0.9;
     private final int OUTPUT_NEURONS = 2;
     private final int NEURONS_NUM = 20;
+
+    @Override
+    public void run() {
+        while(true) {
+            applyBackPropagation(curTable);
+            try {
+                sleep(200);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public NeuronNetwork(int lays_num) {
         layers_number = lays_num;
