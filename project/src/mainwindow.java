@@ -42,15 +42,18 @@ public class mainwindow extends JFrame {
                     punkty[x][y] = 1;
                     wynik[0] = 0;
                     wynik[1] = 1;
+                    siec.addPoint(1, (double)x/sizeX, (double)y/sizeY);
                 }
                 else {
                     punkty[x][y] = 2;
                     wynik[0] = 1;
                     wynik[1] = 0;
+                    siec.addPoint(2, (double)x/sizeX, (double)y/sizeY);
                 }
 
                 repaint();
-                siec.learn( (double)x/sizeX, (double)y/sizeY, wynik);
+                //siec.learn( (double)x/sizeX, (double)y/sizeY, wynik);
+
             }
         });
 

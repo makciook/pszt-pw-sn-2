@@ -11,5 +11,6 @@ public class main {
         NeuronNetwork siec = new NeuronNetwork(2);
 
         mainwindow okno = new mainwindow(siec);
+        siec.start();
     }
 }

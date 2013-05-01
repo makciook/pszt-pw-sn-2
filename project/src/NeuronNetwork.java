@@ -4,6 +4,20 @@
  */
 
 import java.util.Random;
+import java.util.Vector;
+
+class Pair {
+    private double x;
+    private double y;
+    public Pair(double x, double y){
+        this.x = x;
+        this.y = y;
+    }
+    public double getX(){ return x; }
+    public double getY(){ return y; }
+    public void setX(double x){ this.x = x; }
+    public void setY(double y){ this.y = y; }
+}
 
 /**
  * Reprezentacja sieci neuronowej jako zbiór neuronów, pogrupowanych w warstwy - input, hidden oraz output.
@@ -14,30 +28,74 @@ public class NeuronNetwork extends Thread {
     private Neuron[][] hiddenLayer;
     private Neuron[] outputLayer;
 
-    private double[] curTable;
+    private Vector<Pair> group1;
+    private Vector<Pair> group2;
 
     private int neurons;
     private int layers_number;
+    private boolean recalc = false;
 
-    private final double LEARN_RATIO = 0.9;
+    private final double LEARN_RATIO = 0.2;
     private final int OUTPUT_NEURONS = 2;
     private final int NEURONS_NUM = 20;
+    private final int CREDITS = 500;
 
     @Override
     public void run() {
         while(true) {
-            applyBackPropagation(curTable);
-            try {
-                sleep(200);
-            } catch(Exception e) {
-                e.printStackTrace();
+            if(recalc)
+                recalcBase();
+            else
+                try {
+                    sleep(200);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+        }
+    }
+
+    public void addPoint(int group, double x, double y) {
+        if(group == 1)
+            group1.add(new Pair(x, y));
+        else
+            group2.add(new Pair(x, y));
+        recalc = true;
+    }
+
+    private void recalcBase() {
+        recalc = false;
+        double exp[] = new double[2];
+        int lim;
+        if(group1.size() > group2.size())
+            lim = group1.size();
+        else
+            lim = group2.size();
+        System.out.println("Poszly koniec po betonie\n");
+        for(int i = 0; i < CREDITS; ++i) {
+            for(int j = 0; j < lim; ++j) {
+                if(j < group1.size()) {
+                    exp[0] = 0;
+                    exp[1] = 1;
+                    Pair p = group1.elementAt(j);
+                    learn(p.getX(), p.getY(), exp);
+                }
+                if(j < group2.size()) {
+                    exp[0] = 1;
+                    exp[1] = 0;
+                    Pair p = group2.elementAt(j);
+                    learn(p.getX(), p.getY(), exp);
+                }
             }
         }
+        System.out.println("Oczekiwane: " + exp[0] + " " + exp[1]);
+        System.out.println("Wynik " + outputLayer[0].getValue() + " "  + outputLayer[1].getValue());
     }
 
     public NeuronNetwork(int lays_num) {
         layers_number = lays_num;
         neurons = NEURONS_NUM/lays_num;                        // ilość elementów w każdej z warstw ukrytych
+        group1 = new Vector<Pair>();
+        group2 = new Vector<Pair>();
 
         createInputLayer();
         createHiddenLayer(lays_num);
@@ -115,9 +173,9 @@ public class NeuronNetwork extends Thread {
         setInput(x,y);            // ustawienie danych wejściowych
         calculateLayers();              // wykonanie obliczeń przez sieć
 
-        System.out.println("x: " + x + " y " + y);
-        System.out.println("Oczekiwane: " + expected[0] + " " + expected[1]);
-        System.out.println("Wynik " + outputLayer[0].getValue() + " "  + outputLayer[1].getValue());
+        //System.out.println("x: " + x + " y " + y);
+        //System.out.println("Oczekiwane: " + expected[0] + " " + expected[1]);
+        //System.out.println("Wynik " + outputLayer[0].getValue() + " "  + outputLayer[1].getValue());
 
         applyBackPropagation(expected);  // zastosowanie propagacji wstecznej
     }
