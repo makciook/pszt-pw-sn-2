@@ -1,6 +1,5 @@
 /**
  * Algorytm propagacji wstecznej - http://home.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html
- * TODO:
  */
 
 import java.util.Random;
@@ -20,7 +19,7 @@ class Pair {
 }
 
 /**
- * Reprezentacja sieci neuronowej jako zbiór neuronów, pogrupowanych w warstwy - input, hidden oraz output.
+ * Reprezentacja sieci neuronowej jako zbioru neuronów, pogrupowanych w warstwy - input, hidden oraz output.
  */
 public class NeuronNetwork extends Thread {
 
@@ -173,10 +172,6 @@ public class NeuronNetwork extends Thread {
         setInput(x,y);            // ustawienie danych wejściowych
         calculateLayers();              // wykonanie obliczeń przez sieć
 
-        //System.out.println("x: " + x + " y " + y);
-        //System.out.println("Oczekiwane: " + expected[0] + " " + expected[1]);
-        //System.out.println("Wynik " + outputLayer[0].getValue() + " "  + outputLayer[1].getValue());
-
         applyBackPropagation(expected);  // zastosowanie propagacji wstecznej
     }
 
@@ -260,8 +255,6 @@ public class NeuronNetwork extends Thread {
             else
                 cur_layer = hiddenLayer[i+1];
         }
-
-
     }
 
 

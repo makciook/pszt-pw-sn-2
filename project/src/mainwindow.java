@@ -52,8 +52,6 @@ public class mainwindow extends JFrame {
                 }
 
                 repaint();
-                //siec.learn( (double)x/sizeX, (double)y/sizeY, wynik);
-
             }
         });
 
@@ -65,44 +63,21 @@ public class mainwindow extends JFrame {
                     return;
                 krzywa = new short[sizeX][sizeY];
                 double wyniki[] = new double[2];
-                double poprzedni = 0;
-                double aktualny = 0;
-                boolean bylo = false;
+
                 for(int i = 0; i < sizeX; ++i) {
                     for(int j = 0; j < sizeY; ++j) {
                         wyniki = siec.calcResults((double)i/sizeX,(double)j/sizeY);
-                       aktualny = wyniki[0] - wyniki[1];
-                       
-                    //    System.out.println(wyniki[0]  + " "+  wyniki[1] + " i" +i + " j" +j );
-                    
-                       if(wyniki[0] > wyniki[1]) {
-                         krzywa[i][j] = 1;
-                       }
-                       else {
-                        krzywa[i][j] = 2;
-                       }
-                        
-                        /*
-                        if(!bylo && j > 0) {
-                            if((aktualny<0)==(poprzedni<0))
-                                krzywa[i][j] = 0;
+                        if(wyniki[0] > wyniki[1]) {
+                            krzywa[i][j] = 1;
+                        }
                             else {
-                                krzywa[i][j] = 1;
-                                bylo = true;
-                            }
+                            krzywa[i][j] = 2;
                         }
                         
-                        poprzedni = aktualny;
-                    }
-                    poprzedni = 0;
-                    aktualny = 0;
-                    bylo = false;
-                    */
+
                   }
                 }
-                
-                       
-                       
+
                 rysuj_krzywa = true;
                 repaint();
             }
@@ -122,12 +97,10 @@ public class mainwindow extends JFrame {
                     continue;
                 if(punkty[i][j] == 1) {
                     g.setColor(Color.red);
-                    //g.fillRect(i*scale,j*scale,scale,scale);
                     g.fillArc(i*scale,j*scale,scale,scale,0,360);
                 }
                 else {
                     g.setColor(Color.blue);
-                    //g.fillRect(i*scale,j*scale,scale,scale);
                     g.fillArc(i*scale,j*scale,scale,scale,0,360);
                 }
             }
