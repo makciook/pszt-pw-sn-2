@@ -130,6 +130,16 @@ public class mainwindow extends JFrame {
             }
             //rysuj_krzywa = false;
         }
+    }
 
+    int getSizeX() {  return sizeX; }
+    int getSizeY() { return sizeY; }
+    int getScale() { return scale; }
+    Rectangle getCurrentLocation() {
+        return this.getBounds();
+    }
+
+    public void setLoc(int x,int y) {
+        this.setLocation(x,y);
     }
 }
