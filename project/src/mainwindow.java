@@ -17,7 +17,7 @@ public class mainwindow extends JFrame {
     private final NeuronNetwork siec;
 
     public mainwindow(final NeuronNetwork siec) {
-        super("mainwindow");
+        super("Klasyfikator PSZT 2013");
         this.setPreferredSize(new Dimension(sizeX*scale, sizeY*scale));
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,6 +33,11 @@ public class mainwindow extends JFrame {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                if(rysuj_krzywa) {
+                    rysuj_krzywa = false;
+                    repaint();
+                    return;
+                }
                 int x = e.getX()/scale;
                 int y = e.getY()/scale;
                 double wynik[] = new double[2];
@@ -59,8 +64,12 @@ public class mainwindow extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() != KeyEvent.VK_SPACE)
+                if(e.getKeyCode() != KeyEvent.VK_SPACE || ( e.getKeyCode() == KeyEvent.VK_SPACE && rysuj_krzywa == true) )
+                {
+                    rysuj_krzywa = false;
+                    repaint();
                     return;
+                }
                 krzywa = new short[sizeX][sizeY];
                 double wyniki[] = new double[2];
 
@@ -80,6 +89,7 @@ public class mainwindow extends JFrame {
 
                 rysuj_krzywa = true;
                 repaint();
+                //rysuj_krzywa = false;
             }
         });
 
@@ -118,7 +128,7 @@ public class mainwindow extends JFrame {
                     }
                 }
             }
-            rysuj_krzywa = false;
+            //rysuj_krzywa = false;
         }
 
     }
