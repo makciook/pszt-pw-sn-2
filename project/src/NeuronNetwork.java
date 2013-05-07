@@ -239,20 +239,14 @@ public class NeuronNetwork extends Thread {
         }
 
         // update weights for the hidden layer
-        for(i = 0; i < layers_number; ++i)
-        for (Neuron n : hiddenLayer[i]) {
+        for (Neuron n : hiddenLayer[0]) {
             Synaps connections[] = n.getConnections();
             for (Synaps con : connections) {
                 double aj = n.getValue();
                 double ai = con.getPrevNeuron().getValue();
                 double sumKoutputs = 0;
                 int j = 0;
-                Neuron cur_layer[];
-                if(i+1 == layers_number)
-                    cur_layer = outputLayer;
-                else
-                    cur_layer = hiddenLayer[i];
-                for (Neuron out_neu : cur_layer) {
+                for (Neuron out_neu : outputLayer) {
                     double wjk = out_neu.getConnection(n.getId()).getWeight();
                     double desiredOutput = (double) expected[j];
                     double ak = out_neu.getValue();

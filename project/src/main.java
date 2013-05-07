@@ -25,7 +25,7 @@ public class main {
     public static void main(String args[]) {
 
         if(TESTMODE == 0) {
-            NeuronNetwork siec = new NeuronNetwork(2);
+            NeuronNetwork siec = new NeuronNetwork(1);
             mainwindow okno = new mainwindow(siec);
             siec.start();
         }
@@ -63,7 +63,7 @@ public class main {
             }
         }
         else if(TESTMODE >= 2) {
-            NeuronNetwork siec = new NeuronNetwork(2);
+            NeuronNetwork siec = new NeuronNetwork(1);
             mainwindow okno = new mainwindow(siec);
             siec.start();
             UnitTest testy2 = new UnitTest(okno.getCurrentLocation(), okno.getSizeX()*okno.getScale(), okno.getSizeY()*okno.getScale());
