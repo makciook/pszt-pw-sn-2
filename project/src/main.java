@@ -11,7 +11,7 @@ import java.util.Timer;
  * To change this template use File | Settings | File Templates.
  */
 public class main {
-    private static final int TESTMODE = 1;     // 0 - bez testow
+    private static final int TESTMODE = 2;     // 0 - bez testow
                                                // 1 - testy kompleksowe
                                                // 2 - test sinusa
     private static final int MAX_TESTS = 6;
@@ -51,7 +51,7 @@ public class main {
                 testy2.screenshot(nazwa2);
                 waitt(1);
                 testy2.switchView();
-                waitt(3);
+                waitt(4);
                 testy2.screenshot(nazwa1);
                 okno2.closeWindow();
             }
@@ -61,7 +61,12 @@ public class main {
             mainwindow okno = new mainwindow(siec);
             siec.start();
             UnitTest testy2 = new UnitTest(okno.getCurrentLocation(), okno.getSizeX()*okno.getScale(), okno.getSizeY()*okno.getScale());
-            testy2.drawSinus();
+            //testy2.drawSinus();
+            //testy2.drawCircle(200, 200, 100);
+            //testy2.drawQuadOneByOne();
+            //testy2.drawPozioma();
+            //testy2.drawStraightLine();
+            testy2.drawDoubleCircle(150,150,70, 300,300, 50);
         }
     }
 

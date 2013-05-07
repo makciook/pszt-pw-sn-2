@@ -161,6 +161,22 @@ public class UnitTest {
 
     }
 
+    public void drawDoubleCircle(double a1, double b1, double r1, double a2, double b2, double r2) {
+        int which=0;
+        double x,y;
+        for(int i = 0; i < 800; ++i) {
+            x = Math.random() * (maxx - minx);
+            y = Math.random() * (maxx - minx);
+            if( (x-a1)*(x-a1)+(y-b1)*(y-b1) <= r1*r1 || (x-a2)*(x-a2)+(y-b2)*(y-b2) <= r2*r2 )
+                which = 0;
+            else
+                which = 1;
+
+            click(x+minx,y,which);
+        }
+
+    }
+
     public void drawQuadOneByOne() {
         int min = 0;
         int max = 2;
