@@ -38,6 +38,10 @@ public class mainwindow extends JFrame {
                     repaint();
                     return;
                 }
+                /**
+                 * Wartości powinny być od -1 do 1. Za duże sumy iloczynów dla funkcji aktywacji.
+                 * f: R^2 -> [-1,1];
+                 */
                 int x = e.getX()/scale;
                 int y = e.getY()/scale;
                 double wynik[] = new double[2];
@@ -45,14 +49,14 @@ public class mainwindow extends JFrame {
                     return;
                 if(e.getButton() == MouseEvent.BUTTON1) {
                     punkty[x][y] = 1;
-                    wynik[0] = 0;
-                    wynik[1] = 1;
+                    wynik[0] = 0.1;//0;
+                    wynik[1] = 0.9;//1;
                     siec.addPoint(1, (double)x/sizeX, (double)y/sizeY);
                 }
                 else {
                     punkty[x][y] = 2;
-                    wynik[0] = 1;
-                    wynik[1] = 0;
+                    wynik[0] = 0.9;//1;
+                    wynik[1] = 0.1;//0;
                     siec.addPoint(2, (double)x/sizeX, (double)y/sizeY);
                 }
 
@@ -64,12 +68,19 @@ public class mainwindow extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() != KeyEvent.VK_SPACE || ( e.getKeyCode() == KeyEvent.VK_SPACE && rysuj_krzywa == true) )
+                if(e.getKeyCode() == KeyEvent.VK_A) {
+                    siec.recalcBase();
+                    System.out.println("Przeliczylem!");
+                }
+
+                else if(e.getKeyCode() != KeyEvent.VK_SPACE || ( e.getKeyCode() == KeyEvent.VK_SPACE && rysuj_krzywa == true) )
                 {
                     rysuj_krzywa = false;
                     repaint();
                     return;
                 }
+
+
                 krzywa = new short[sizeX][sizeY];
                 double wyniki[] = new double[2];
 
@@ -85,6 +96,7 @@ public class mainwindow extends JFrame {
                         
 
                   }
+                  //System.out.println();
                 }
 
                 rysuj_krzywa = true;

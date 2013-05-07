@@ -34,7 +34,7 @@ public class NeuronNetwork extends Thread {
     private int layers_number;
     private boolean recalc = false;
 
-    private final double LEARN_RATIO = 0.2;
+    private final double LEARN_RATIO = 0.01;
     private final int OUTPUT_NEURONS = 2;
     private final int NEURONS_NUM = 20;
     private final int CREDITS = 500;
@@ -61,7 +61,7 @@ public class NeuronNetwork extends Thread {
         recalc = true;
     }
 
-    private void recalcBase() {
+    public void recalcBase() {
         recalc = false;
         double exp[] = new double[2];
         int lim;
@@ -169,6 +169,7 @@ public class NeuronNetwork extends Thread {
      * @param expected wartość oczekiwana (nauczona)
      */
     public void learn(double x, double y, double expected[]) {
+        //System.out.println(x + " " + y);
         setInput(x,y);            // ustawienie danych wejściowych
         calculateLayers();              // wykonanie obliczeń przez sieć
 

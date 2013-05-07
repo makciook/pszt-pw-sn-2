@@ -74,6 +74,15 @@ public class Neuron {
         return 1.0 / (1.0 +  (Math.exp(-x)));
     }
 
+    /**
+     * Dla wyjściowej!!
+     * @param x
+     * @return
+     */
+    private double sigmoidOut(double x) {
+        return 0.2;//
+    }
+
     public void setValue(double output) {
         value = output;
     }
