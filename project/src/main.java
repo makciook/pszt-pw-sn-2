@@ -11,7 +11,7 @@ import java.util.Timer;
  * To change this template use File | Settings | File Templates.
  */
 public class main {
-    private static final int TESTMODE = 7;     // 0 - bez testow
+    private static final int TESTMODE = 0;     // 0 - bez testow
                                                // 1 - testy kompleksowe
 
                                                // 2 - test sinusa
