@@ -33,7 +33,7 @@ public class main {
             /**
              * Test trwa koło 5 sekund, jest ich 6 więc nie ruszać myszką w tym czasie!!
              */
-            for(int i = 0; i<6; ++i) {
+            for(int i = 0; i<MAX_TESTS; ++i) {
                 NeuronNetwork siec2 = new NeuronNetwork(1);
                 mainwindow okno2 = new mainwindow(siec2);
                 //okno2.setLoc(500,500);
