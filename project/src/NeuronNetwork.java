@@ -34,7 +34,7 @@ public class NeuronNetwork extends Thread {
     private int layers_number;
     private boolean recalc = false;
 
-    private final double LEARN_RATIO = 0.01;
+    private final double LEARN_RATIO = 0.9;
     private final int OUTPUT_NEURONS = 2;
     private final int NEURONS_NUM = 20;
     private final int CREDITS = 500;
@@ -73,14 +73,14 @@ public class NeuronNetwork extends Thread {
         for(int i = 0; i < CREDITS; ++i) {
             for(int j = 0; j < lim; ++j) {
                 if(j < group1.size()) {
-                    exp[0] = 0;
-                    exp[1] = 1;
+                    exp[0] = 0.1;
+                    exp[1] = 0.9;
                     Pair p = group1.elementAt(j);
                     learn(p.getX(), p.getY(), exp);
                 }
                 if(j < group2.size()) {
-                    exp[0] = 1;
-                    exp[1] = 0;
+                    exp[0] = 0.9;
+                    exp[1] = 0.1;
                     Pair p = group2.elementAt(j);
                     learn(p.getX(), p.getY(), exp);
                 }
@@ -220,7 +220,56 @@ public class NeuronNetwork extends Thread {
      */
     private void applyBackPropagation(double expected[]) {
 
-        for(int i = 0; i < OUTPUT_NEURONS; ++i) {
+        int i = 0;
+        for (Neuron n : outputLayer) {
+            Synaps connections[] = n.getConnections();
+            for (Synaps con : connections) {
+                double ak = n.getValue();
+                double ai = con.getPrevNeuron().getValue();
+                double desiredOutput = expected[i];
+
+                double partialDerivative = -ak * (1 - ak) * ai
+                        * (desiredOutput - ak);
+                double deltaWeight = -LEARN_RATIO * partialDerivative;
+                double newWeight = con.getWeight() + deltaWeight;
+                con.setDelta(deltaWeight);
+                con.setWeight(newWeight + 0.7f /*momentum */ * con.getDelta());
+            }
+            i++;
+        }
+
+        // update weights for the hidden layer
+        for(i = 0; i < layers_number; ++i)
+        for (Neuron n : hiddenLayer[i]) {
+            Synaps connections[] = n.getConnections();
+            for (Synaps con : connections) {
+                double aj = n.getValue();
+                double ai = con.getPrevNeuron().getValue();
+                double sumKoutputs = 0;
+                int j = 0;
+                Neuron cur_layer[];
+                if(i+1 == layers_number)
+                    cur_layer = outputLayer;
+                else
+                    cur_layer = hiddenLayer[i];
+                for (Neuron out_neu : cur_layer) {
+                    double wjk = out_neu.getConnection(n.getId()).getWeight();
+                    double desiredOutput = (double) expected[j];
+                    double ak = out_neu.getValue();
+                    j++;
+                    sumKoutputs = sumKoutputs
+                            + (-(desiredOutput - ak) * ak * (1 - ak) * wjk);
+                }
+
+                double partialDerivative = aj * (1 - aj) * ai * sumKoutputs;
+                double deltaWeight = -LEARN_RATIO * partialDerivative;
+                double newWeight = con.getWeight() + deltaWeight;
+                con.setDelta(deltaWeight);
+                con.setWeight(newWeight + 0.7f* con.getDelta());
+            }
+        }
+
+        /*for(int i = 0; i < OUTPUT_NEURONS; ++i) {
             Neuron n = outputLayer[i];
             n.setDelta(expected[i] - n.getValue());
         }
@@ -255,7 +304,7 @@ public class NeuronNetwork extends Thread {
                 cur_layer = outputLayer;
             else
                 cur_layer = hiddenLayer[i+1];
-        }
+        }*/
     }
 
 
