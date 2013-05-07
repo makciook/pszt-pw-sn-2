@@ -109,6 +109,12 @@ public class mainwindow extends JFrame {
 
     }
 
+    public void closeWindow() {
+        this.setVisible(false);
+        this.dispose();
+
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);

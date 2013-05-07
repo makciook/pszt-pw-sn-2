@@ -1,5 +1,9 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 /**
  * Created with IntelliJ IDEA.
@@ -118,6 +122,26 @@ public class UnitTest {
         }
     }
 
+    public void drawCircle() {
+        double a = 100 + Math.random() * (300-100);
+        double b = 100 + Math.random() * (300-100);
+        double r = 50 + Math.random() * (200-50);
+        double x,y ;
+        int which=0;
+
+        for(int i = 0; i < 800; ++i) {
+            x = Math.random() * (maxx - minx);
+            y = Math.random() * (maxx - minx);
+            if( (x-a)*(x-a)+(y-b)*(y-b) <= r*r )
+                which = 0;
+            else
+                which = 1;
+
+            click(x+minx,y,which);
+        }
+
+    }
+
     public void drawQuadOneByOne() {
         int min = 0;
         int max = 2;
@@ -137,5 +161,25 @@ public class UnitTest {
             click(x+minx,yrand,which);
             System.out.println("\tx:"+x+", y: "+y+", yrand: "+yrand);
         }
+    }
+
+    public void switchView() {
+        robot.keyPress(KeyEvent.VK_SPACE);
+        robot.keyRelease(KeyEvent.VK_SPACE);
+    }
+
+    public void screenshot(String filename) {
+
+        try {
+            BufferedImage screencapture = new Robot().createScreenCapture(
+                    new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()) ).getSubimage(0,0,400,400);
+
+            File file = new File(filename);
+
+            ImageIO.write(screencapture, "jpg", file);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
