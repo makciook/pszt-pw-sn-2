@@ -43,6 +43,26 @@ public class UnitTest {
         }
     }
 
+    public void drawSinus() {
+        int min = 0;
+        int max = 5;
+        int which;
+        double x,yrand, y;
+        double a = min + Math.random() * (max-min);
+        double b = min + Math.random() * (max-min);
+        System.out.println("y="+a+"x+"+b);
+        for(int i = 0; i < 800; ++i) {
+            x = Math.random() * (maxx - minx);
+            y = 100*Math.sin(x/30)+200;
+            yrand = miny + Math.random() * (maxy - miny);
+            System.out.println("x: "+ x +", y: "+ y + ", yrand: "+ yrand);
+            which = (yrand <= y) ? 1 : 0;
+            click(x+minx,yrand,which);
+            //System.out.println("\tx:"+x+", y: "+y+", yrand: "+yrand);
+        }
+
+    }
+
     public void drawStraightLine() {
         int min = 0;
         int max = 5;
@@ -122,13 +142,12 @@ public class UnitTest {
         }
     }
 
-    public void drawCircle() {
-        double a = 100 + Math.random() * (300-100);
-        double b = 100 + Math.random() * (300-100);
-        double r = 50 + Math.random() * (200-50);
-        double x,y ;
+    public void drawCircle(double a, double b, double r) {
+       // double a = 100 + Math.random() * (300-100);
+       // double b = 100 + Math.random() * (300-100);
+       // double r = 50 + Math.random() * (200-50);
         int which=0;
-
+        double x,y;
         for(int i = 0; i < 800; ++i) {
             x = Math.random() * (maxx - minx);
             y = Math.random() * (maxx - minx);

@@ -11,18 +11,19 @@ import java.util.Timer;
  * To change this template use File | Settings | File Templates.
  */
 public class main {
-    private static final boolean TESTMODE = true;
+    private static final int TESTMODE = 1;     // 0 - bez testow
+                                               // 1 - testy kompleksowe
+                                               // 2 - test sinusa
+    private static final int MAX_TESTS = 6;
 
     public static void main(String args[]) {
 
-        if(!TESTMODE) {
+        if(TESTMODE == 0) {
             NeuronNetwork siec = new NeuronNetwork(2);
             mainwindow okno = new mainwindow(siec);
             siec.start();
-            //UnitTest testy = new UnitTest(okno.getCurrentLocation(), okno.getSizeX()*okno.getScale(), okno.getSizeY()*okno.getScale());
-            //testy.drawStraightLine();
         }
-        else {
+        else if(TESTMODE == 1) {
             /**
              * Test trwa koło 5 sekund, jest ich 6 więc nie ruszać myszką w tym czasie!!
              */
@@ -38,15 +39,29 @@ public class main {
                 nazwa2 += Integer.toString(i) + "_0.jpg";
                 nazwa1 += Integer.toString(i) + "_1.jpg";
 
-                testy2.drawCircle();
+                if(i>=MAX_TESTS-2)
+                    testy2.drawQuadOneByOne();
+                else {
+                    double a = 70 + Math.random() * (250-10);
+                    double b = 70 + Math.random() * (250-10);
+                    double r = 60;
+                    testy2.drawCircle(a, b, r);
+                }
                 waitt(2);
                 testy2.screenshot(nazwa2);
                 waitt(1);
                 testy2.switchView();
-                waitt(2);
+                waitt(3);
                 testy2.screenshot(nazwa1);
                 okno2.closeWindow();
             }
+        }
+        else if(TESTMODE == 2) {
+            NeuronNetwork siec = new NeuronNetwork(2);
+            mainwindow okno = new mainwindow(siec);
+            siec.start();
+            UnitTest testy2 = new UnitTest(okno.getCurrentLocation(), okno.getSizeX()*okno.getScale(), okno.getSizeY()*okno.getScale());
+            testy2.drawSinus();
         }
     }
 
