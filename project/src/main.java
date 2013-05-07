@@ -13,7 +13,13 @@ import java.util.Timer;
 public class main {
     private static final int TESTMODE = 2;     // 0 - bez testow
                                                // 1 - testy kompleksowe
+
                                                // 2 - test sinusa
+                                               // 3 - test koło
+                                               // 4 - test krzywa
+                                               // 5 - test pozioma
+                                               // 6 - test prosta
+                                               // 7 - test podwójne koło
     private static final int MAX_TESTS = 6;
 
     public static void main(String args[]) {
@@ -61,12 +67,20 @@ public class main {
             mainwindow okno = new mainwindow(siec);
             siec.start();
             UnitTest testy2 = new UnitTest(okno.getCurrentLocation(), okno.getSizeX()*okno.getScale(), okno.getSizeY()*okno.getScale());
-            //testy2.drawSinus();
-            //testy2.drawCircle(200, 200, 100);
-            //testy2.drawQuadOneByOne();
-            //testy2.drawPozioma();
-            //testy2.drawStraightLine();
-            testy2.drawDoubleCircle(150,150,70, 300,300, 50);
+            switch(TESTMODE) {
+                case 2: testy2.drawSinus();
+                        break;
+                case 3: testy2.drawCircle(200, 200, 100);
+                        break;
+                case 4: testy2.drawQuadOneByOne();
+                        break;
+                case 5: testy2.drawPozioma();
+                        break;
+                case 6: testy2.drawStraightLine();
+                        break;
+                case 7: testy2.drawDoubleCircle(150,150,70, 300,300, 50);
+                        break;
+            }
         }
     }
 
