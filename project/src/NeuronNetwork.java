@@ -1,5 +1,9 @@
 /**
  * Algorytm propagacji wstecznej - http://home.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html
+ *
+ *
+ *   http://kunuk.wordpress.com/2010/10/11/neural-network-backpropagation-with-java/
+ *
  */
 
 import java.util.Random;
