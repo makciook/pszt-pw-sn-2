@@ -71,12 +71,10 @@ public class Neuron {
     }
 
     /**
-     * Dla wyjściowej!!
-     * @param x
-     * @return
+     * Funkcja liniowa dla obliczeń warstwy wyjściowej
      */
     private double sigmoidOut(double x) {
-        return 0.23123*x+0.9123;//
+        return 0.23123*x+0.9123;          // ?????????????
     }
 
     public void setValue(double output) {
