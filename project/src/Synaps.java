@@ -1,11 +1,4 @@
 /**
- * User: Daniel
- * Date: 27.03.13
- * Time: 19:49
- * TODO:
- */
-
-/**
  * Reprezentacja synapsy poprzez parametry jak waga i delta oraz połączenie - wychodzące (next) i wchodzące (prev)
  */
 public class Synaps {

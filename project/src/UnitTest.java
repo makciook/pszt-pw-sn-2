@@ -5,13 +5,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-/**
- * Created with IntelliJ IDEA.
- * User: maciek
- * Date: 06.05.13
- * Time: 16:01
- * To change this template use File | Settings | File Templates.
- */
 public class UnitTest {
     Robot robot;
     Rectangle zero;

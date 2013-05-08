@@ -1,9 +1,3 @@
-/**
- * User: Daniel
- * Date: 27.03.13
- * Time: 19:28
- */
-
 import com.sun.corba.se.impl.logging.ORBUtilSystemException;
 
 import java.util.Vector;

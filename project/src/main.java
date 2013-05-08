@@ -3,13 +3,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Timer;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Daniel
- * Date: 27.03.13
- * Time: 11:06
- * To change this template use File | Settings | File Templates.
- */
 public class main {
     private static final int TESTMODE = 0;     // 0 - bez testow
                                                // 1 - testy kompleksowe
