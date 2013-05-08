@@ -18,7 +18,8 @@ public class Neuron {
         id = counter;
     }
 
-    public void calculateValue() {
+    //public void calculateValue() {
+    public void calculateValue(boolean outputLayer) {
         double s = 0;
         for(Synaps con : connections) {
             double waga = con.getWeight();
@@ -27,7 +28,8 @@ public class Neuron {
             s += v*waga;
         }
 
-        value = func(s);
+        //value = func(s);
+        value = (outputLayer==false) ? sigmoid(s) : sigmoidOut(s);
         delta = 0;
     }
 
@@ -74,7 +76,7 @@ public class Neuron {
      * @return
      */
     private double sigmoidOut(double x) {
-        return 0.2;//
+        return 0.23123*x+0.9123;//
     }
 
     public void setValue(double output) {

@@ -192,13 +192,13 @@ public class NeuronNetwork extends Thread {
         // wykonanie obliczeń przez warstwy ukryte
         for(int i = 0; i < layers_number; ++i) {
             for(int j = 0; j < neurons; ++j) {
-                hiddenLayer[i][j].calculateValue();
+                hiddenLayer[i][j].calculateValue(false);
             }
         }
 
         // wykonanie obliczeń przez warstwę wyjściową
         for(int i = 0; i < OUTPUT_NEURONS; ++i) {
-            outputLayer[i].calculateValue();
+            outputLayer[i].calculateValue(true);
         }
     }
 
