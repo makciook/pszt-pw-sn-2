@@ -42,6 +42,7 @@ public class NeuronNetwork extends Thread {
     private final int OUTPUT_NEURONS = 2;
     private final int NEURONS_NUM = 20;
     private final int CREDITS = 500;
+    private final float momentum = 0.7f;
 
     @Override
     public void run() {
@@ -224,7 +225,7 @@ public class NeuronNetwork extends Thread {
      */
     private void applyBackPropagation(double expected[]) {
 
-        int i = 0;
+        /*int i = 0;
         for (Neuron n : outputLayer) {
             Synaps connections[] = n.getConnections();
             for (Synaps con : connections) {
@@ -237,7 +238,7 @@ public class NeuronNetwork extends Thread {
                 double deltaWeight = -LEARN_RATIO * partialDerivative;
                 double newWeight = con.getWeight() + deltaWeight;
                 con.setDelta(deltaWeight);
-                con.setWeight(newWeight + 0.7f /*momentum */ * con.getDelta());
+                con.setWeight(newWeight + momentum * con.getDelta());
             }
             i++;
         }
@@ -263,11 +264,11 @@ public class NeuronNetwork extends Thread {
                 double deltaWeight = -LEARN_RATIO * partialDerivative;
                 double newWeight = con.getWeight() + deltaWeight;
                 con.setDelta(deltaWeight);
-                con.setWeight(newWeight + 0.7f* con.getDelta());
+                con.setWeight(newWeight + momentum* con.getDelta());
             }
-        }
+        }     */
 
-        /*for(int i = 0; i < OUTPUT_NEURONS; ++i) {
+        for(int i = 0; i < OUTPUT_NEURONS; ++i) {
             Neuron n = outputLayer[i];
             n.setDelta(expected[i] - n.getValue());
         }
@@ -302,7 +303,7 @@ public class NeuronNetwork extends Thread {
                 cur_layer = outputLayer;
             else
                 cur_layer = hiddenLayer[i+1];
-        }*/
+        }
     }
 
 
