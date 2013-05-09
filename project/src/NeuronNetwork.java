@@ -38,7 +38,7 @@ public class NeuronNetwork extends Thread {
     private int layers_number;
     private boolean recalc = false;
 
-    private final double LEARN_RATIO = 0.9;
+    private final double LEARN_RATIO = 0.09;
     private final int OUTPUT_NEURONS = 2;
     private final int NEURONS_NUM = 20;
     private final int CREDITS = 500;
@@ -175,7 +175,7 @@ public class NeuronNetwork extends Thread {
      */
     public void learn(double x, double y, double expected[]) {
         //System.out.println(x + " " + y);
-        setInput(x,y);            // ustawienie danych wejściowych
+        setInput(x,y);                  // ustawienie danych wejściowych
         calculateLayers();              // wykonanie obliczeń przez sieć
 
         applyBackPropagation(expected);  // zastosowanie propagacji wstecznej
@@ -270,7 +270,8 @@ public class NeuronNetwork extends Thread {
 
         for(int i = 0; i < OUTPUT_NEURONS; ++i) {
             Neuron n = outputLayer[i];
-            n.setDelta(expected[i] - n.getValue());
+            //n.setDelta(expected[i] - n.getValue());
+            n.setDelta((expected[i] - n.getValue())*(n.getValue() * (1-n.getValue())));
         }
 
         Neuron cur_layer[] = outputLayer;
@@ -282,11 +283,13 @@ public class NeuronNetwork extends Thread {
                     delta = con.getWeight()*n.getDelta();
                     Neuron prev = con.getPrevNeuron();
                     prev.setDelta(prev.getDelta() + delta);
+                    
+                   
                 }
             }
             cur_layer = hiddenLayer[i-1];
         }
-
+        
         cur_layer = hiddenLayer[0];
         double new_weight = 0;
         for(int i = 0; i < layers_number+1; ++i) {
@@ -297,9 +300,10 @@ public class NeuronNetwork extends Thread {
                     double v = n.getValue();
                     new_weight = con.getWeight() + LEARN_RATIO*n.getDelta()*prev.getValue()*v*(1-v);
                     con.setWeight(new_weight);
+                   
                 }
             }
-            if(i >= layers_number-1)
+            if(i >= layers_number -1)
                 cur_layer = outputLayer;
             else
                 cur_layer = hiddenLayer[i+1];

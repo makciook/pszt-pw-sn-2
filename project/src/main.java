@@ -4,7 +4,7 @@ import java.util.GregorianCalendar;
 import java.util.Timer;
 
 public class main {
-    private static final int TESTMODE = 2;     // 0 - bez testow
+    private static final int TESTMODE = 0;     // 0 - bez testow
                                                // 1 - testy kompleksowe
 
                                                // 2 - test sinusa
@@ -18,7 +18,7 @@ public class main {
     public static void main(String args[]) {
 
         if(TESTMODE == 0) {
-            NeuronNetwork siec = new NeuronNetwork(1);
+            NeuronNetwork siec = new NeuronNetwork(2);
             mainwindow okno = new mainwindow(siec);
             siec.start();
         }

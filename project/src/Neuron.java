@@ -23,6 +23,8 @@ public class Neuron {
         double s = 0;
         for(Synaps con : connections) {
             double waga = con.getWeight();
+          //  if(waga > 600 || waga < -600)
+            //    System.out.println("alert" + waga);
             Neuron input = con.getPrevNeuron();
             double v = input.getValue();
             s += v*waga;
@@ -67,14 +69,16 @@ public class Neuron {
     }
 
     private double sigmoid(double x) {
+     //   System.out.println("Value"+x);
         return 1.0 / (1.0 +  (Math.exp(-x)));
+
     }
 
     /**
      * Funkcja liniowa dla obliczeń warstwy wyjściowej
      */
     private double sigmoidOut(double x) {
-        return 0.23123*x+0.9123;          // ?????????????
+        return sigmoid(x);          // ?????????????
     }
 
     public void setValue(double output) {
