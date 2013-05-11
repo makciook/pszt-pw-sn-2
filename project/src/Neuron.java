@@ -44,14 +44,24 @@ public class Neuron {
     }*/
 
     public void addConnections(Neuron[] inputs) {
-        connections = new Synaps[inputs.length];
+        connections = new Synaps[inputs.length]; // + neuron stala jedynka
         int i = 0;
         for(Neuron in : inputs) {
             connections[i] = new Synaps(in, this);
             ++i;
         }
     }
-
+    // dodaje polaczenia i podlacza neuron generujacy stala jedyne na wejsciu.
+    public void addConnections(Neuron[] inputs, Neuron constOne) {
+        connections = new Synaps[inputs.length+1]; // + neuron stala jedynka
+        int i = 0;
+        for(Neuron in : inputs) {
+            connections[i] = new Synaps(in, this);
+            ++i;
+        }
+        connections[i] = new Synaps(constOne, this);
+    }
+    
     public Synaps[] getConnections() {
         return connections;
     }

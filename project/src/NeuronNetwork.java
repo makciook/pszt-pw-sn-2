@@ -110,11 +110,15 @@ public class NeuronNetwork extends Thread {
      * Tworzenie warstwy wejściowej (2 neurony)
      */
     private void createInputLayer() {
-        inputLayer = new Neuron[2];
+        inputLayer = new Neuron[3]; // wejsciowe + neuron na stala jedynke
         for(int i = 0; i < 2; ++i) {
             Neuron input = new Neuron();
             inputLayer[i] = input;
         }
+        Neuron jeden = new Neuron();
+        jeden.setValue(1.0); // stala jedynka
+        inputLayer[2] = jeden;
+        
     }
 
     /**
@@ -128,7 +132,8 @@ public class NeuronNetwork extends Thread {
             for(int j = 0; j < neurons; ++j) {
                 Neuron hidden = new Neuron();
                 hiddenLayer[i][j] = hidden;
-                hidden.addConnections(prev_lay);                // tworzymy połączenia z neuronami w poprzedniej warstwie
+                hidden.addConnections(prev_lay,inputLayer[2]);                // tworzymy połączenia z neuronami w poprzedniej warstwie
+                                                                // neuron generujacy stala jedynke do kazdego neuronu z warsty ukrytej
             }
             prev_lay = hiddenLayer[i];
         }
