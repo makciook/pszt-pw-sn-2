@@ -12,6 +12,7 @@ public class UnitTest {
     double miny;
     double maxx;
     double maxy;
+    long sleep = 600;
 
     public UnitTest(Rectangle start, int w, int h) {
         try {
@@ -36,7 +37,7 @@ public class UnitTest {
         }
     }
 
-    public void drawSinus() {
+    public void drawSinus() throws InterruptedException {
         int min = 0;
         int max = 5;
         int which;
@@ -44,19 +45,20 @@ public class UnitTest {
         double a = min + Math.random() * (max-min);
         double b = min + Math.random() * (max-min);
         System.out.println("y="+a+"x+"+b);
-        for(int i = 0; i < 800; ++i) {
+        for(int i = 0; i < 300; ++i) {
             x = Math.random() * (maxx - minx);
             y = 100*Math.sin(x/30)+200;
             yrand = miny + Math.random() * (maxy - miny);
             System.out.println("x: "+ x +", y: "+ y + ", yrand: "+ yrand);
             which = (yrand <= y) ? 1 : 0;
             click(x+minx,yrand,which);
+            Thread.sleep(sleep);
             //System.out.println("\tx:"+x+", y: "+y+", yrand: "+yrand);
         }
 
     }
 
-    public void drawStraightLine() {
+    public void drawStraightLine() throws InterruptedException {
         int min = 0;
         int max = 5;
         int which;
@@ -64,18 +66,19 @@ public class UnitTest {
         double a = min + Math.random() * (max-min);
         double b = min + Math.random() * (max-min);
         System.out.println("y="+a+"x+"+b);
-        for(int i = 0; i < 800; ++i) {
+        for(int i = 0; i < 100; ++i) {
             x = Math.random() * (maxx - minx);
             y = a*x+b;
             yrand = miny + Math.random() * (maxy - miny);
             which = (yrand <= y) ? 1 : 0;
             click(x+minx,yrand,which);
+            Thread.sleep(sleep);
             //System.out.println("\tx:"+x+", y: "+y+", yrand: "+yrand);
         }
 
     }
 
-    public void drawPozioma() {
+    public void drawPozioma() throws InterruptedException {
         int min = 0;
         int max = 5;
         int which;
@@ -83,17 +86,18 @@ public class UnitTest {
         double a = 0;
         double b = 200;
         System.out.println("y="+a+"x+"+b);
-        for(int i = 0; i < 800; ++i) {
+        for(int i = 0; i < 100; ++i) {
             x = Math.random() * (maxx - minx);
             y = a*x+b;
             yrand = miny + Math.random() * (maxy - miny);
             which = (yrand <= y) ? 1 : 0;
             click(x+minx,yrand,which);
+            Thread.sleep(sleep);
             //System.out.println("\tx:"+x+", y: "+y+", yrand: "+yrand);
         }
     }
 
-    public void drawPionowa() {
+    public void drawPionowa() throws InterruptedException {
         int min = 0;
         int max = 5;
         int which;
@@ -101,17 +105,18 @@ public class UnitTest {
         double a = 200;
         double b = 0;
         System.out.println("y="+a+"x+"+b);
-        for(int i = 0; i < 800; ++i) {
+        for(int i = 0; i < 100; ++i) {
             x = Math.random() * (maxx - minx);
             y = a*x+b;
             yrand = miny + Math.random() * (maxy - miny);
             which = (yrand <= y) ? 1 : 0;
             click(x+minx,yrand,which);
+            Thread.sleep(sleep);
             //System.out.println("\tx:"+x+", y: "+y+", yrand: "+yrand);
         }
     }
 
-    public void drawStraightLineOneByOne() {
+    public void drawStraightLineOneByOne() throws InterruptedException {
         double min = 0;
         double max = 1.5;
         int which = 0,lastwhich = 0;
@@ -119,7 +124,7 @@ public class UnitTest {
         double a = min + Math.random() * (max-min);
         double b = min + Math.random() * (100-min);
         System.out.println("y="+a+"x+"+b);
-        for(int i = 0; i < 800; ++i) {
+        for(int i = 0; i < 100; ++i) {
             x = Math.random() * (maxx - minx);
             y = a*x+b;
             do {
@@ -129,19 +134,20 @@ public class UnitTest {
             System.out.println("\t"+i+"\tx:"+x+", y: "+y+", yrand: "+yrand);
 			try {
 				click(x+minx,yrand,which);
+                                Thread.sleep(sleep);
 			} catch(Exception e) { }
 			
             lastwhich = which;
         }
     }
 
-    public void drawCircle(double a, double b, double r) {
+    public void drawCircle(double a, double b, double r) throws InterruptedException {
        // double a = 100 + Math.random() * (300-100);
        // double b = 100 + Math.random() * (300-100);
        // double r = 50 + Math.random() * (200-50);
         int which=0;
         double x,y;
-        for(int i = 0; i < 800; ++i) {
+        for(int i = 0; i < 200; ++i) {
             x = Math.random() * (maxx - minx);
             y = Math.random() * (maxx - minx);
             if( (x-a)*(x-a)+(y-b)*(y-b) <= r*r )
@@ -150,14 +156,15 @@ public class UnitTest {
                 which = 1;
 
             click(x+minx,y,which);
+            Thread.sleep(sleep);
         }
 
     }
 
-    public void drawDoubleCircle(double a1, double b1, double r1, double a2, double b2, double r2) {
+    public void drawDoubleCircle(double a1, double b1, double r1, double a2, double b2, double r2) throws InterruptedException {
         int which=0;
         double x,y;
-        for(int i = 0; i < 800; ++i) {
+        for(int i = 0; i < 400; ++i) {
             x = Math.random() * (maxx - minx);
             y = Math.random() * (maxx - minx);
             if( (x-a1)*(x-a1)+(y-b1)*(y-b1) <= r1*r1 || (x-a2)*(x-a2)+(y-b2)*(y-b2) <= r2*r2 )
@@ -166,11 +173,12 @@ public class UnitTest {
                 which = 1;
 
             click(x+minx,y,which);
+            Thread.sleep(sleep);
         }
 
     }
 
-    public void drawQuadOneByOne() {
+    public void drawQuadOneByOne() throws InterruptedException {
         int min = 0;
         int max = 2;
         int which = 0,lastwhich = 0;
@@ -179,7 +187,7 @@ public class UnitTest {
         double b = min + Math.random() * (0.1-min);
         double c = min + Math.random() * (200-min);
         System.out.println("y="+a+"x+"+b);
-        for(int i = 0; i < 800; ++i) {
+        for(int i = 0; i < 200; ++i) {
             x = Math.random() * (maxx - minx);
             y = a*x*x+b*x+c;
 
@@ -187,7 +195,7 @@ public class UnitTest {
                 which = (yrand <= y) ? 1 : 0;
 
             click(x+minx,yrand,which);
-            System.out.println("\tx:"+x+", y: "+y+", yrand: "+yrand);
+            Thread.sleep(500);
         }
     }
 

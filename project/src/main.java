@@ -18,7 +18,7 @@ public class main {
     public static void main(String args[]) {
 
         if(TESTMODE == 0) {
-            NeuronNetwork siec = new NeuronNetwork(1);
+            NeuronNetwork siec = new NeuronNetwork(2);
             mainwindow okno = new mainwindow(siec);
             siec.start();
         }
@@ -38,13 +38,17 @@ public class main {
                 nazwa2 += Integer.toString(i) + "_0.jpg";
                 nazwa1 += Integer.toString(i) + "_1.jpg";
 
-                if(i>=MAX_TESTS-2)
+                if(i>=MAX_TESTS-2) {
+                    try {
                     testy2.drawQuadOneByOne();
+                    }
+                    catch(InterruptedException e) { }
+                }
                 else {
                     double a = 70 + Math.random() * (250-10);
                     double b = 70 + Math.random() * (250-10);
                     double r = 60;
-                    testy2.drawCircle(a, b, r);
+                 //   testy2.drawCircle(a, b, r);
                 }
                 waitt(2);
                 testy2.screenshot(nazwa2);
@@ -60,10 +64,12 @@ public class main {
             mainwindow okno = new mainwindow(siec);
             siec.start();
             UnitTest testy2 = new UnitTest(okno.getCurrentLocation(), okno.getSizeX()*okno.getScale(), okno.getSizeY()*okno.getScale());
+            try {
             switch(TESTMODE) {
+                
                 case 2: testy2.drawSinus();
                         break;
-                case 3: testy2.drawCircle(200, 200, 100);
+                case 3: testy2.drawCircle(200, 200, 100); 
                         break;
                 case 4: testy2.drawQuadOneByOne();
                         break;
@@ -73,7 +79,9 @@ public class main {
                         break;
                 case 7: testy2.drawDoubleCircle(150,150,70, 300,300, 50);
                         break;
+               }
             }
+            catch(InterruptedException e) { }
         }
     }
 
