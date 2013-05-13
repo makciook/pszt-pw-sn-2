@@ -30,8 +30,7 @@ public class Neuron {
             s += v*waga;
         }
 
-        //value = func(s);
-        value = (outputLayer==false) ? sigmoid(s) : sigmoidOut(s);
+        value = sigmoid(s);
         delta = 0;
     }
 
@@ -82,13 +81,6 @@ public class Neuron {
      //   System.out.println("Value"+x);
         return 1.0 / (1.0 +  (Math.exp(-x)));
 
-    }
-
-    /**
-     * Funkcja liniowa dla obliczeń warstwy wyjściowej
-     */
-    private double sigmoidOut(double x) {
-        return sigmoid(x);          // ?????????????
     }
 
     public void setValue(double output) {

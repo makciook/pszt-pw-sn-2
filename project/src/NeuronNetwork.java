@@ -41,7 +41,7 @@ public class NeuronNetwork extends Thread {
     private final double LEARN_RATIO = 0.09;
     private final int OUTPUT_NEURONS = 2;
     private final int NEURONS_NUM = 20;
-    private final int CREDITS = 500;
+    private final int CREDITS = 1000;
     private final float momentum = 0.7f;
 
     @Override
@@ -229,49 +229,6 @@ public class NeuronNetwork extends Thread {
      * @param expected wartość parametru oczekiwanego
      */
     private void applyBackPropagation(double expected[]) {
-
-        /*int i = 0;
-        for (Neuron n : outputLayer) {
-            Synaps connections[] = n.getConnections();
-            for (Synaps con : connections) {
-                double ak = n.getValue();
-                double ai = con.getPrevNeuron().getValue();
-                double desiredOutput = expected[i];
-
-                double partialDerivative = -ak * (1 - ak) * ai
-                        * (desiredOutput - ak);
-                double deltaWeight = -LEARN_RATIO * partialDerivative;
-                double newWeight = con.getWeight() + deltaWeight;
-                con.setDelta(deltaWeight);
-                con.setWeight(newWeight + momentum * con.getDelta());
-            }
-            i++;
-        }
-
-        // update weights for the hidden layer
-        for (Neuron n : hiddenLayer[0]) {
-            Synaps connections[] = n.getConnections();
-            for (Synaps con : connections) {
-                double aj = n.getValue();
-                double ai = con.getPrevNeuron().getValue();
-                double sumKoutputs = 0;
-                int j = 0;
-                for (Neuron out_neu : outputLayer) {
-                    double wjk = out_neu.getConnection(n.getId()).getWeight();
-                    double desiredOutput = (double) expected[j];
-                    double ak = out_neu.getValue();
-                    j++;
-                    sumKoutputs = sumKoutputs
-                            + (-(desiredOutput - ak) * ak * (1 - ak) * wjk);
-                }
-
-                double partialDerivative = aj * (1 - aj) * ai * sumKoutputs;
-                double deltaWeight = -LEARN_RATIO * partialDerivative;
-                double newWeight = con.getWeight() + deltaWeight;
-                con.setDelta(deltaWeight);
-                con.setWeight(newWeight + momentum* con.getDelta());
-            }
-        }     */
 
         for(int i = 0; i < OUTPUT_NEURONS; ++i) {
             Neuron n = outputLayer[i];
