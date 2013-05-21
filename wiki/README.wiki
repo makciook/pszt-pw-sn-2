@@ -1,4 +1,4 @@
-#labels Featured,neuralnetworks,neuronnetworks,PSZT
+#labels Featured,neuralnetworks,neuronnetworks,PSZT,Phase-Design,Phase-Deploy
 = Introduction =
 
 Project PSZT-PW-SN-2 was developed for PSZT @ Warsaw University of Technology. It's a fully-objective, easy to resize and extend implementation of Neural Networks in JAVA.
@@ -32,7 +32,5 @@ which have to be implemented on extension.
 == Algorithms ==
 
 Back propagation algorithm was based on the one you can find on the [http://home.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html AGH website]. It needed slight modifications - Bias neuron at each hidden layer, different sigmoid function in the output layer and derivative in delta counting.
-
-
 
 
