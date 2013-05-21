@@ -31,18 +31,17 @@ public class NeuronNetwork extends Thread {
     private Neuron[][] hiddenLayer;
     private Neuron[] outputLayer;
 
-    private Vector<Pair> group1;
-    private Vector<Pair> group2;
+    private Vector<Pair> group1;                       // Kontenery służące do przechowywania współrzędnych punktów
+    private Vector<Pair> group2;                       // dla obu grup klikknięć
 
     private int neurons;
     private int layers_number;
     private boolean recalc = false;
 
-    private final double LEARN_RATIO = 0.09;
-    private final int OUTPUT_NEURONS = 2;
-    private final int NEURONS_NUM = 20;
-    private final int CREDITS = 1000;
-    private final float momentum = 0.7f;
+    private final double LEARN_RATIO = 0.03;
+    private final int OUTPUT_NEURONS = 2;              // Ilość neuronów w warstwie wyjściowej
+    private final int NEURONS_NUM = 20;                // sumaryczna ilość neuronów we wszystkich warstwach ukrytych
+    private final int CREDITS = 1000;                  // ilość powtórzeń obliczeń dla całej bazy wiedzy
 
     @Override
     public void run() {
@@ -58,6 +57,17 @@ public class NeuronNetwork extends Thread {
         }
     }
 
+    public NeuronNetwork(int lays_num) {
+        layers_number = lays_num;
+        neurons = NEURONS_NUM/lays_num;                        // ilość elementów w każdej z warstw ukrytych
+        group1 = new Vector<Pair>();
+        group2 = new Vector<Pair>();
+
+        createInputLayer();
+        createHiddenLayer(lays_num);
+        createOutputLayer();
+    }
+
     public void addPoint(int group, double x, double y) {
         if(group == 1)
             group1.add(new Pair(x, y));
@@ -66,6 +76,9 @@ public class NeuronNetwork extends Thread {
         recalc = true;
     }
 
+    /**
+     * Ponowne przepuszczenie bazy wiedzy przez sieć w celu dokładniejszej nauki sieci
+     */
     public void recalcBase() {
         recalc = false;
         double exp[] = new double[2];
@@ -74,7 +87,6 @@ public class NeuronNetwork extends Thread {
             lim = group1.size();
         else
             lim = group2.size();
-        System.out.println("Poszly koniec po betonie\n");
         for(int i = 0; i < CREDITS; ++i) {
             for(int j = 0; j < lim; ++j) {
                 if(j < group1.size()) {
@@ -93,17 +105,6 @@ public class NeuronNetwork extends Thread {
         }
         System.out.println("Oczekiwane: " + exp[0] + " " + exp[1]);
         System.out.println("Wynik " + outputLayer[0].getValue() + " "  + outputLayer[1].getValue());
-    }
-
-    public NeuronNetwork(int lays_num) {
-        layers_number = lays_num;
-        neurons = NEURONS_NUM/lays_num;                        // ilość elementów w każdej z warstw ukrytych
-        group1 = new Vector<Pair>();
-        group2 = new Vector<Pair>();
-
-        createInputLayer();
-        createHiddenLayer(lays_num);
-        createOutputLayer();
     }
 
     /**
@@ -167,7 +168,7 @@ public class NeuronNetwork extends Thread {
         for(Neuron neuron : outputLayer) {
             Synaps[] cons = neuron.getConnections();
             for(Synaps con : cons) {
-                con.setWeight(losuj.nextDouble()*2-1);
+                con.setWeight(losuj.nextDouble()*2-1);                // losowanie początkowych wag
             }
         }
     }
@@ -186,6 +187,11 @@ public class NeuronNetwork extends Thread {
         applyBackPropagation(expected);  // zastosowanie propagacji wstecznej
     }
 
+    /**
+     * Ustawienie wartości obu neuronów wejściowych
+     * @param x
+     * @param y
+     */
     private void setInput(double x, double y) {
         inputLayer[0].setValue(x);
         inputLayer[1].setValue(y);
@@ -226,14 +232,13 @@ public class NeuronNetwork extends Thread {
 
     /**
      * Algorytm wstecznej propagacji dla podanego parametru oczekiwanego
-     * @param expected wartość parametru oczekiwanego
+     * @param expected tablica zawierająca oczekiwane wartości wyjściowe
      */
     private void applyBackPropagation(double expected[]) {
 
         for(int i = 0; i < OUTPUT_NEURONS; ++i) {
             Neuron n = outputLayer[i];
-            //n.setDelta(expected[i] - n.getValue());
-            n.setDelta((expected[i] - n.getValue())*(n.getValue() * (1-n.getValue())));
+            n.setDelta(expected[i] - n.getValue());
         }
 
         Neuron cur_layer[] = outputLayer;
@@ -244,7 +249,8 @@ public class NeuronNetwork extends Thread {
                 for(Synaps con : connections) {
                     delta = con.getWeight()*n.getDelta();
                     Neuron prev = con.getPrevNeuron();
-                    prev.setDelta(prev.getDelta() + delta);
+                    double v = prev.getValue();
+                    prev.setDelta(prev.getDelta() + delta*v*(1-v));
                     
                    
                 }
@@ -259,8 +265,7 @@ public class NeuronNetwork extends Thread {
                 Synaps connections[] = n.getConnections();
                 for(Synaps con : connections) {
                     Neuron prev = con.getPrevNeuron();
-                    double v = n.getValue();
-                    new_weight = con.getWeight() + LEARN_RATIO*n.getDelta()*prev.getValue()*v*(1-v);
+                    new_weight = con.getWeight() + LEARN_RATIO*n.getDelta()*prev.getValue();
                     con.setWeight(new_weight);
                    
                 }

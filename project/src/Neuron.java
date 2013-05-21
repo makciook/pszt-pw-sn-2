@@ -18,29 +18,27 @@ public class Neuron {
         id = counter;
     }
 
-    //public void calculateValue() {
+    /**
+     *  Funkcja obliczająca wartość w neuronie
+     * @param outputLayer - true jeśli neuron jes w warstwie wyjściowej
+     *                    Zastosowane dla użycia innej funkcji aktywującej
+     */
     public void calculateValue(boolean outputLayer) {
         double s = 0;
         for(Synaps con : connections) {
             double waga = con.getWeight();
-          //  if(waga > 600 || waga < -600)
-            //    System.out.println("alert" + waga);
             Neuron input = con.getPrevNeuron();
             double v = input.getValue();
             s += v*waga;
         }
 
-        value = sigmoid(s);
+        value = (outputLayer == true) ? sigmoOut(s) : sigmoid(s);
         delta = 0;
     }
 
     public int getId() {
         return id;
     }
-
-    /*public void addConnection(Synaps input) {
-        connections.add(input);
-    }*/
 
     public void addConnections(Neuron[] inputs) {
         connections = new Synaps[inputs.length]; // + neuron stala jedynka
@@ -60,27 +58,27 @@ public class Neuron {
         }
         connections[i] = new Synaps(constOne, this);
     }
-    
+
     public Synaps[] getConnections() {
         return connections;
     }
 
-    public Synaps getConnection(int i) {
-        for(Synaps s : connections) {
-            if(s.getPrevNeuron().getId()==i)
-                return s;
-        }
-        return null;
-    }
-
-    private double func(double s) {
-        return sigmoid(s);
-    }
-
+    /**
+     * Funkcja aktywacji neuronów w warstwach ukrytych
+     * @param x
+     * @return
+     */
     private double sigmoid(double x) {
-     //   System.out.println("Value"+x);
         return 1.0 / (1.0 +  (Math.exp(-x)));
+    }
 
+    /**
+     * Funkcja aktywacji dla neuronów w warstwie zewnętrznej
+     * @param x
+     * @return
+     */
+    private double sigmoOut(double x) {
+        return x;
     }
 
     public void setValue(double output) {

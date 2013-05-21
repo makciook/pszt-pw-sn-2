@@ -11,9 +11,9 @@ public class mainwindow extends JFrame {
     private short punkty[][];
     private short krzywa[][];
     private boolean rysuj_krzywa;
-    private final int sizeX = 80;
-    private final int sizeY = 80;
-    private final int scale = 5;
+    private final int sizeX = 80;                       // przeskalowana szerokość okna
+    private final int sizeY = 80;                       // przeskalowana wysokość okna
+    private final int scale = 5;                        // współczynnik skalowania
     private final NeuronNetwork siec;
 
     public mainwindow(final NeuronNetwork siec) {

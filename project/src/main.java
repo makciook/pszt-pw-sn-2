@@ -14,11 +14,12 @@ public class main {
                                                // 6 - test prosta
                                                // 7 - test podwójne koło
     private static final int MAX_TESTS = 7;
+    private static final int HIDDEN_LAYERS_NUM = 2;
 
     public static void main(String args[]) {
 
         if(TESTMODE == 0) {
-            NeuronNetwork siec = new NeuronNetwork(2);
+            NeuronNetwork siec = new NeuronNetwork(HIDDEN_LAYERS_NUM);
             mainwindow okno = new mainwindow(siec);
             siec.start();
         }
@@ -27,7 +28,7 @@ public class main {
              * Test trwa koło 5 sekund, jest ich 6 więc nie ruszać myszką w tym czasie!!
              */
             for(int i = 0; i<MAX_TESTS; ++i) {
-                NeuronNetwork siec2 = new NeuronNetwork(2);
+                NeuronNetwork siec2 = new NeuronNetwork(HIDDEN_LAYERS_NUM);
                 mainwindow okno2 = new mainwindow(siec2);
                 //okno2.setLoc(500,500);
                 siec2.start();
@@ -60,7 +61,7 @@ public class main {
             }
         }
         else if(TESTMODE >= 2) {
-            NeuronNetwork siec = new NeuronNetwork(2);
+            NeuronNetwork siec = new NeuronNetwork(HIDDEN_LAYERS_NUM);
             mainwindow okno = new mainwindow(siec);
             siec.start();
             UnitTest testy2 = new UnitTest(okno.getCurrentLocation(), okno.getSizeX()*okno.getScale(), okno.getSizeY()*okno.getScale());
